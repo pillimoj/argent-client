@@ -1,0 +1,19 @@
+{
+    "hosting": {
+        "public": "public",
+        "ignore": [".firebaserc", "firebase.json", ".git"],
+        "rewrites": [
+            {
+                "source": "/api/**",
+                "run": {
+                    "serviceId": "argent",
+                    "region": "europe-west1"
+                }
+            },
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    }
+}
