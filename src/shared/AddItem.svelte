@@ -11,7 +11,7 @@
     const addItem = () => dispatch('addItem');
 </script>
 
-<form on:submit={addItem}>
+<form on:submit|preventDefault={addItem}>
     <Input {placeholder} bind:value />
     <FormButton>{ctaText}</FormButton>
 </form>

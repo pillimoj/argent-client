@@ -17,7 +17,7 @@
     {/if}
     <Nav />
     <SpacerV height="5rem" />
-    <div>
+    <div class="app-content">
         {#if currentUser.isLoggedIn}
             <Lists />
         {/if}
@@ -28,6 +28,10 @@
     main {
         margin: 0 auto;
         max-width: 50rem;
+    }
+
+    .app-content {
+        margin: 0 1rem;
     }
 
     @media (min-width: 40rem) {

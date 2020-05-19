@@ -5,7 +5,7 @@
 <style>
     .button-container {
         height: 3.5rem;
-        width: 5rem;
+        min-width: 5rem;
         background-color: white;
         color: black;
         display: flex;

@@ -53,6 +53,7 @@
         display: flex;
         justify-content: flex-end;
         margin-right: 1rem;
+        align-self: center;
     }
 
     @media (min-width: 40rem) {
