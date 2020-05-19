@@ -1,3 +1,27 @@
+<script>
+    import { user } from './stores.js';
+    import GoogleLoginButton from './auth/GoogleLoginButton.svelte';
+    import Logout from './auth/Logout.svelte';
+
+    $: currentUser = $user;
+</script>
+
+<div class="container">
+    <a href="/">
+        <div class="icon-container">
+            <div>A</div>
+        </div>
+    </a>
+    <h1>Argent</h1>
+    <div class="signin-container">
+        {#if currentUser.isLoggedIn}
+            <Logout />
+        {:else}
+            <GoogleLoginButton />
+        {/if}
+    </div>
+</div>
+
 <style>
     .container {
         margin: 0 auto;
@@ -5,7 +29,6 @@
         display: grid;
         grid-template-columns: 5rem 1fr 12rem;
         align-items: baseline;
-        margin-bottom: 2rem;
         width: 100%;
         height: 5rem;
         position: fixed;
@@ -25,31 +48,16 @@
         justify-content: center;
         overflow: hidden;
     }
+
+    .signin-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 1rem;
+    }
+
     @media (min-width: 40rem) {
         .container {
             max-width: 38rem;
         }
     }
 </style>
-
-<script>
-    import { user } from './stores.js';
-    import GoogleLoginButton from './auth/GoogleLoginButton.svelte';
-    import Logout from './auth/Logout.svelte';
-
-    $: currentUser = $user;
-</script>
-
-<div class="container">
-    <a href="/">
-        <div class="icon-container">
-            <div>A</div>
-        </div>
-    </a>
-    <h1>Argent</h1>
-    {#if currentUser.isLoggedIn}
-        <Logout />
-    {:else}
-        <GoogleLoginButton />
-    {/if}
-</div>

@@ -6,9 +6,10 @@ const prod = mode === 'production';
 
 module.exports = {
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000,
+        port: 5000,
+        proxy: {
+            '/api': 'http://localhost:8008',
+        },
     },
     entry: {
         bundle: ['./src/main.js'],

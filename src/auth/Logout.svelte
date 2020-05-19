@@ -1,10 +1,11 @@
 <script>
-    window.signOut = () => {
+    import Button from '../shared/Button.svelte';
+    const signOut = () => {
         const auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(() => {
-            // User is now signed out
+            window.location.replace('/');
         });
     };
 </script>
 
-<a onclick="signOut">Sign out</a>
+<Button on:click={signOut}>Sign Out</Button>
