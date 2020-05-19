@@ -2,26 +2,26 @@
     "name": "argent-client",
     "version": "1.0.0",
     "devDependencies": {
-        "cross-env": "^5.2.0",
-        "css-loader": "^2.1.1",
-        "firebase-tools": "^8.2.0",
-        "mini-css-extract-plugin": "^0.6.0",
+        "@rollup/plugin-commonjs": "^11.1.0",
+        "@rollup/plugin-node-resolve": "^7.0.0",
+        "firebase-tools": "^8.3.0",
         "prettier": "^2.0.5",
-        "serve": "^11.0.0",
-        "style-loader": "^0.23.1",
-        "svelte": "^3.0.0",
-        "svelte-loader": "2.13.3",
-        "webpack": "^4.30.0",
-        "webpack-cli": "^3.3.0",
-        "webpack-dev-server": "^3.3.1"
+        "prettier-plugin-svelte": "^1.1.0",
+        "rollup": "^2.0.0",
+        "rollup-plugin-dev": "^1.1.2",
+        "rollup-plugin-html2": "^1.1.0",
+        "rollup-plugin-livereload": "^1.0.0",
+        "rollup-plugin-postcss": "^3.1.1",
+        "rollup-plugin-svelte": "^5.0.3",
+        "rollup-plugin-terser": "^5.1.2",
+        "svelte": "^3.0.0"
     },
     "scripts": {
-        "build": "cross-env NODE_ENV=production webpack",
-        "dev": "webpack-dev-server --content-base public",
+        "dev": "NODE_ENV=development rollup -c -w",
+        "build": "NODE_ENV=production rollup -c",
         "format": "prettier --write src",
-        "deploy": "yarn build && firebase deploy"
+        "deploy": "yarn build && firebase deploy",
+        "ci": "yarn install && yarn deploy"
     },
-    "dependencies": {
-        "prettier-plugin-svelte": "^1.1.0"
-    }
+    "dependencies": {}
 }

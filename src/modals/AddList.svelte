@@ -1,5 +1,5 @@
 <script>
-    import AddItem from '../shared/AddItem';
+    import AddItem from '../shared/AddItem.svelte';
     import { client } from '../api.js';
 
     let newListName = '';

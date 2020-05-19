@@ -39,4 +39,13 @@
             max-width: 38rem;
         }
     }
+
+    :global(body) {
+        background-color: black;
+        font-family: 'Jost', sans-serif;
+        color: white;
+        font-size: 1rem;
+        margin: 0;
+        padding: 0;
+    }
 </style>

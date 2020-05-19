@@ -8,7 +8,10 @@
     export let placeholder;
 
     const dispatch = createEventDispatcher();
-    const addItem = () => dispatch('addItem');
+    const addItem = () => {
+        dispatch('addItem');
+        return false;
+    };
 </script>
 
 <form on:submit|preventDefault={addItem}>

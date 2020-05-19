@@ -1,5 +1,5 @@
 /node_modules/
-/public/bundle.*
+dist/
 .firebase/
 
 .DS_Store
