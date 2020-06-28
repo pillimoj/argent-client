@@ -1,7 +1,8 @@
 <script>
     import { onMount } from 'svelte';
+    import { get } from 'svelte/store';
     import { client } from './api.js';
-    import { modal } from './stores.js';
+    import { modal, user } from './stores.js';
     import List from './List.svelte';
     import AddList from './modals/AddList.svelte';
     let lists = [];
@@ -9,11 +10,6 @@
     let newListName = '';
 
     const listClickHandler = (listId) => () => (activeList = listId);
-
-    const updateLists = async () => {
-        const data = await client('api/v1/checklists');
-        lists = data;
-    };
     const openAddListModal = () => {
         modal.set({
             component: AddList,
@@ -27,7 +23,14 @@
             header: 'Add List',
         });
     };
+    const updateLists = async () => {
+        const data = await client('api/v1/checklists');
+        lists = data;
+    };
+
     onMount(updateLists);
+
+    $: currentUser = $user;
 </script>
 
 <div class="container">
@@ -46,6 +49,8 @@
     <div>
         {#if activeList !== null}
             <List listId={activeList} />
+        {:else}
+            <h2>Hello {currentUser.given_name}</h2>
         {/if}
     </div>
 </div>

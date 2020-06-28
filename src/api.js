@@ -1,8 +1,8 @@
 import { get } from 'svelte/store';
-import { user } from './stores.js';
+import { auth } from './stores.js';
 
 export async function client(endpoint, { body, ...customConfig } = {}) {
-    const token = get(user).idToken;
+    const token = get(auth).idToken;
     const headers = { 'content-type': 'application/json' };
     headers.Authorization = `Bearer ${token}`;
     const config = {

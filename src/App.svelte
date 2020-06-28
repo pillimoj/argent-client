@@ -1,12 +1,12 @@
 <script>
-    import { user, modal } from './stores.js';
+    import { auth, modal } from './stores.js';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './Lists.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
     $: modalState = $modal;
-    $: currentUser = $user;
+    $: authState = $auth;
 </script>
 
 <main>
@@ -18,7 +18,7 @@
     <Nav />
     <SpacerV height="5rem" />
     <div class="app-content">
-        {#if currentUser.isLoggedIn}
+        {#if authState.isLoggedIn}
             <Lists />
         {/if}
     </div>

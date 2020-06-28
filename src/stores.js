@@ -1,6 +1,11 @@
 import { writable } from 'svelte/store';
 
-export const user = writable({ isLoggedIn: false });
+export const auth = writable({ isLoggedIn: false });
+export const user = writable({
+    email: '',
+    given_name: '',
+    family_name: '',
+});
 
 export const modal = writable({
     show: false,

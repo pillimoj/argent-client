@@ -1,14 +1,14 @@
 <script>
-    import { user } from '../stores.js';
+    import { client } from '../api.js';
+    import { auth, user } from '../stores.js';
     window.onSignIn = (googleUser) => {
         const isLoggedIn = true;
-        const profile = googleUser.getBasicProfile();
         const idToken = googleUser.getAuthResponse().id_token;
-        user.set({
+        auth.set({
             isLoggedIn,
-            profile,
             idToken,
         });
+        client('api/v1/me').then((data) => user.set(data));
     };
 </script>
 

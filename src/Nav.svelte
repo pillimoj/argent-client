@@ -1,9 +1,9 @@
 <script>
-    import { user } from './stores.js';
+    import { auth } from './stores.js';
     import GoogleLoginButton from './auth/GoogleLoginButton.svelte';
     import Logout from './auth/Logout.svelte';
 
-    $: currentUser = $user;
+    $: authState = $auth;
 </script>
 
 <div class="container">
@@ -14,7 +14,7 @@
     </a>
     <h1>Argent</h1>
     <div class="signin-container">
-        {#if currentUser.isLoggedIn}
+        {#if authState.isLoggedIn}
             <Logout />
         {:else}
             <GoogleLoginButton />
