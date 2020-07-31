@@ -1,6 +1,8 @@
 import { get } from 'svelte/store';
 import { auth } from './stores.js';
 
+const apiUrl = '__apiUrl__';
+
 export async function client(endpoint, { body, ...customConfig } = {}) {
     const token = get(auth).idToken;
     const headers = { 'content-type': 'application/json' };
@@ -16,7 +18,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
     if (body) {
         config.body = JSON.stringify(body);
     }
-    const response = await window.fetch(endpoint, config);
+    const response = await window.fetch(apiUrl + endpoint, config);
     if (response.status === 401) {
         refreshToken();
         window.location.assign(window.location);

@@ -1,4 +1,5 @@
 import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import html2 from 'rollup-plugin-html2';
 import svelte from 'rollup-plugin-svelte';
@@ -11,6 +12,11 @@ const buildFolder = 'dist';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 const plugins = [
+    replace({
+        __apiUrl__: isDevelopment
+            ? 'http://localhost:8008/'
+            : 'https://argent-72ltbia36q-ew.a.run.app/',
+    }),
     svelte({
         dev: isDevelopment,
         extensions: ['.svelte'],
@@ -31,7 +37,7 @@ if (isDevelopment) {
         dev({
             dirs: [buildFolder],
             port: 5000,
-            proxy: { '/api/*': 'http://localhost:8008/' },
+            // not needed with CORS proxy: { '/api/*': 'http://localhost:8008/' },
             spa: `./${buildFolder}/index.html`,
         }),
         livereload({ watch: `./${buildFolder}` }),
