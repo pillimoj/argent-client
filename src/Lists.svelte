@@ -27,6 +27,11 @@
         const data = await client('api/v1/checklists');
         lists = data;
     };
+    const listDeleteHandler = (listId) => async () => {
+        activeList = null;
+        await client(`api/v1/checklists/${listId}`, { method: 'delete' });
+        updateLists();
+    };
 
     onMount(updateLists);
 
@@ -42,6 +47,14 @@
                 on:click={listClickHandler(list.id)}
             >
                 {list.name}
+                {#if list.id == activeList}
+                    <div
+                        class="delete-list-button"
+                        on:click|stopPropagation={listDeleteHandler(list.id)}
+                    >
+                        x
+                    </div>
+                {/if}
             </div>
         {/each}
         <div class="list-name add-list" on:click={openAddListModal}>+new list</div>
@@ -64,7 +77,8 @@
 
     .list-name {
         height: 2rem;
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1rem;
         align-items: center;
         padding-left: 0.5rem;
         cursor: pointer;
@@ -76,5 +90,9 @@
     .active {
         background-color: white;
         color: black;
+    }
+
+    .delete-list-button {
+        justify-content: center;
     }
 </style>
