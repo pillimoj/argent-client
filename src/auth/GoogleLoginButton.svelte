@@ -18,4 +18,4 @@
     </script>
 </svelte:head>
 
-<div class="g-signin2" data-longtitle="false" data-onsuccess="onSignIn" />
+<div class="g-signin2" data-width="36" data-onsuccess="onSignIn" />
