@@ -24,6 +24,7 @@
 
 <style>
     .container {
+        background-color: black;
         margin: 0 auto;
         max-width: 50rem;
         display: grid;
