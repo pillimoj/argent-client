@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import AddItem from '../shared/AddItem.svelte';
     import { client } from '../api.js';
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { client } from './api.js';
     import ListItem from './ListItem.svelte';

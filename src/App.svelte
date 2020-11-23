@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { auth, modal } from './stores.js';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';

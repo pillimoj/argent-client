@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     import { client } from './api.js';

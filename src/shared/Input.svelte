@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     export let value;
     export let placeholder = null;
     export let errorBorder = false;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { auth } from './stores.js';
     import GoogleLoginButton from './auth/GoogleLoginButton.svelte';
     import Logout from './auth/Logout.svelte';

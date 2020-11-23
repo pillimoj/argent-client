@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
     import { modal as modalStore } from './stores.js';
