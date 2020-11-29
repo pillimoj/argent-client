@@ -43,10 +43,7 @@
         font-size: 16px;
     }
 
-    input.textInput,
-    input[type='text'].textInput,
-    input[type='email'].textInput,
-    input[type='password'].textInput {
+    input.textInput {
         background-clip: padding-box;
         background-color: black;
         border: 1px solid white;
@@ -79,9 +76,6 @@
     }
 
     input.noBorder.textInput,
-    input[type='text'].noBorder.textInput,
-    input[type='email'].noBorder.textInput,
-    input[type='password'].noBorder.textInput,
     input.noBorder.textInput.hasValue,
     input.noBorder.textInput:focus,
     input.noBorder.textInput:hover {

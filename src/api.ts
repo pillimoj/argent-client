@@ -1,12 +1,24 @@
 import { get } from 'svelte/store';
 import { auth } from './stores';
 
+declare var gapi : any;
+
 const apiUrl = '__apiUrl__';
 
-export async function client(endpoint: string, { body, ...customConfig } = {}) {
+interface ClientConfig extends RequestInit {
+    body?: any;
+}
+
+export async function client(
+    endpoint: string,
+    { body, ...customConfig }: ClientConfig = {},
+) {
     const token = get(auth).idToken;
-    const headers = { 'content-type': 'application/json' };
-    headers.Authorization = `Bearer ${token}`;
+    const headers = {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+    };
+
     const config = {
         method: body ? 'POST' : 'GET',
         ...customConfig,
@@ -14,6 +26,7 @@ export async function client(endpoint: string, { body, ...customConfig } = {}) {
             ...headers,
             ...customConfig.headers,
         },
+        body: undefined,
     };
     if (body) {
         config.body = JSON.stringify(body);
@@ -21,7 +34,7 @@ export async function client(endpoint: string, { body, ...customConfig } = {}) {
     const response = await window.fetch(apiUrl + endpoint, config);
     if (response.status === 401) {
         refreshToken();
-        window.location.assign(window.location);
+        window.location.assign(window.location.pathname);
         return;
     }
     const data = await response.json();

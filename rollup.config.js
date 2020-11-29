@@ -34,7 +34,7 @@ const plugins = [
         template: 'src/index.html',
         favicon: 'src/favicon.png',
     }),
-    typescript({ sourceMap: isDevelopment }),
+    typescript({ sourceMap: isDevelopment, inlineSources: isDevelopment }),
 ];
 if (isDevelopment) {
     plugins.push(
@@ -47,7 +47,7 @@ if (isDevelopment) {
         livereload({ watch: `./${buildFolder}` }),
     );
 } else {
-    plugins.push(terser({ sourcemap: true }));
+    plugins.push(terser());
 }
 
 module.exports = {

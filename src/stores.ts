@@ -1,15 +1,26 @@
 import { writable } from 'svelte/store';
 
-export const auth = writable({ isLoggedIn: false });
-export const user = writable({
-    email: '',
-    given_name: '',
-    family_name: '',
-});
+type Role = "User" | "Admin"
+interface User {
+    id: string,
+    email: string,
+    name: string,
+    role: Role
+}
 
-export const modal = writable({
+interface ModalState {
+    show: boolean,
+    component?: any,
+    props?: object,
+    header?: string,
+}
+
+export const auth = writable({ isLoggedIn: false, idToken: undefined });
+export const user = writable<User | null>(null);
+
+export const modal = writable<ModalState>({
     show: false,
-    // component: null,
-    // props: null,
-    // header: null,
+    component: null,
+    props: null,
+    header: null,
 });
