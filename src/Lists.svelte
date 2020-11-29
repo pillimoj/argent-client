@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { get } from 'svelte/store';
     import { client } from './api.js';
@@ -62,8 +62,10 @@
     <div>
         {#if activeList !== null}
             <List listId={activeList} />
+        {:else if currentUser !== null}
+            <h2>Hello {currentUser.name}</h2>
         {:else}
-            <h2>Hello {currentUser.given_name}</h2>
+            <h2>Weclome</h2>
         {/if}
     </div>
 </div>

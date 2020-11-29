@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import FormButton from './FormButton.svelte';
     import Input from './Input.svelte';

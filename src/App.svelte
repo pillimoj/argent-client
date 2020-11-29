@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
+    import { Router, Route } from 'svelte-routing';
     import { auth, modal } from './stores.js';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './Lists.svelte';
+    import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
     $: modalState = $modal;
@@ -10,18 +12,26 @@
 </script>
 
 <main>
-    {#if modalState.show}
-        <Modal>
-            <svelte:component this={modalState.component} {...modalState.props} />
-        </Modal>
-    {/if}
     <Nav />
     <SpacerV height="5rem" />
-    <div class="app-content">
+    <Router>
         {#if authState.isLoggedIn}
-            <Lists />
+            <Route path="admin" component={Admin} />
+            <Route>
+                <div class="app-content">
+                    <Lists />
+                </div>
+                {#if modalState.show}
+                    <Modal>
+                        <svelte:component
+                            this={modalState.component}
+                            {...modalState.props}
+                        />
+                    </Modal>
+                {/if}
+            </Route>
         {/if}
-    </div>
+    </Router>
 </main>
 
 <style>

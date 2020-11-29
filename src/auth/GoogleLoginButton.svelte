@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { client } from '../api.js';
     import { auth, user } from '../stores.js';
     window.onSignIn = (googleUser) => {

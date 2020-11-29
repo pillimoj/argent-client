@@ -1,3 +1,4 @@
+import autoPreprocess from 'svelte-preprocess';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
@@ -7,6 +8,7 @@ import dev from 'rollup-plugin-dev';
 import postcss from 'rollup-plugin-postcss';
 import { terser } from 'rollup-plugin-terser';
 import livereload from 'rollup-plugin-livereload';
+import typescript from '@rollup/plugin-typescript';
 
 const buildFolder = 'dist';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -18,6 +20,7 @@ const plugins = [
             : 'https://argent-72ltbia36q-ew.a.run.app/',
     }),
     svelte({
+        preprocess: autoPreprocess(),
         dev: isDevelopment,
         extensions: ['.svelte'],
         emitCss: true,
@@ -31,6 +34,7 @@ const plugins = [
         template: 'src/index.html',
         favicon: 'src/favicon.png',
     }),
+    typescript({ sourceMap: isDevelopment, inlineSources: isDevelopment }),
 ];
 if (isDevelopment) {
     plugins.push(
@@ -43,11 +47,11 @@ if (isDevelopment) {
         livereload({ watch: `./${buildFolder}` }),
     );
 } else {
-    plugins.push(terser({ sourcemap: true }));
+    plugins.push(terser());
 }
 
 module.exports = {
-    input: 'src/main.js',
+    input: 'src/main.ts',
     output: {
         sourcemap: true,
         format: 'iife',

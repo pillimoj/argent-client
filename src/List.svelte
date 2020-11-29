@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { client } from './api.js';
     import ListItem from './ListItem.svelte';
@@ -13,12 +13,18 @@
 
     const fetchListItems = async (id) => {
         const data = await client(`api/v1/checklists/${id}`);
-        todoItems = data.items.filter((it) => !it.done);
-        doneItems = data.items.filter((it) => it.done);
+        todoItems = data.filter((it) => !it.done);
+        doneItems = data.filter((it) => it.done);
     };
     const onClickItem = (itemId, done) => async () => {
-        await client(`api/v1/checklistitems/${itemId}/done`, { body: { done } });
-        fetchListItems(listId);
+        if(done){
+            await client(`api/v1/checklistitems/${itemId}/done`, { method: 'post' });
+            fetchListItems(listId);
+        }
+        else {
+            await client(`api/v1/checklistitems/${itemId}/not-done`, { method: 'post' });
+            fetchListItems(listId);
+        }
     };
     const onClickClear = async () => {
         await client(`api/v1/checklists/${listId}/clear-done`, { method: 'post' });

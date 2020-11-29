@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Button from '../shared/Button.svelte';
     const signOut = () => {
         const auth2 = gapi.auth2.getAuthInstance();
