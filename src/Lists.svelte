@@ -1,15 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { navigate } from 'svelte-routing';
     import { get } from 'svelte/store';
     import { client } from './api.js';
     import { modal, user } from './stores.js';
-    import List from './List.svelte';
     import AddList from './modals/AddList.svelte';
+    import Button from './shared/Button.svelte';
     let lists = [];
-    let activeList = null;
     let newListName = '';
 
-    const listClickHandler = (listId) => () => (activeList = listId);
     const openAddListModal = () => {
         modal.set({
             component: AddList,
@@ -27,74 +26,59 @@
         const data = await client('api/v1/checklists');
         lists = data;
     };
-    const listDeleteHandler = (listId) => async () => {
-        activeList = null;
-        await client(`api/v1/checklists/${listId}`, { method: 'delete' });
-        updateLists();
-    };
 
     onMount(updateLists);
-
-    $: currentUser = $user;
 </script>
 
 <div class="container">
     <div>
         {#each lists as list}
-            <div
-                class="list-name"
-                class:active={list.id == activeList}
-                on:click={listClickHandler(list.id)}
-            >
-                {list.name}
-                {#if list.id == activeList}
-                    <div
-                        class="delete-list-button"
-                        on:click|stopPropagation={listDeleteHandler(list.id)}
-                    >
-                        x
-                    </div>
-                {/if}
+            <div class="list-item">
+                <div class="link" on:click={() => navigate(`/list/${list.id}`)}>
+                    {list.name}
+                </div>
+                <div
+                    class="link manage"
+                    on:click={() => navigate(`/list/${list.id}/manage`)}
+                >
+                    Manage
+                </div>
             </div>
         {/each}
-        <div class="list-name add-list" on:click={openAddListModal}>+new list</div>
-    </div>
-    <div>
-        {#if activeList !== null}
-            <List listId={activeList} />
-        {:else if currentUser !== null}
-            <h2>Hello {currentUser.name}</h2>
-        {:else}
-            <h2>Weclome</h2>
-        {/if}
+        <div class="list-item" on:click={openAddListModal}>
+            <div class="link">+new list</div>
+        </div>
     </div>
 </div>
 
 <style>
+    :global(a) {
+        color: unset;
+        text-decoration: unset;
+    }
     .container {
-        display: grid;
-        grid-template-columns: 8rem 1fr;
         margin-top: 2rem;
     }
-
-    .list-name {
+    .list-item {
         height: 2rem;
         display: grid;
-        grid-template-columns: 1fr 1rem;
+        grid-template-columns: 1fr 5rem;
         align-items: center;
         padding-left: 0.5rem;
         cursor: pointer;
     }
-    .add-list {
-        color: gray;
+    .link {
+        display: flex;
+        align-items: center;
+        height: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
-
-    .active {
+    .link.manage {
+        justify-content: center;
+    }
+    .link:hover {
         background-color: white;
         color: black;
-    }
-
-    .delete-list-button {
-        justify-content: center;
     }
 </style>

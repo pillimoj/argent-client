@@ -4,6 +4,8 @@
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './Lists.svelte';
+    import List from './List.svelte';
+    import ManageList from './ManageList.svelte';
     import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
@@ -16,20 +18,23 @@
     <SpacerV height="5rem" />
     <Router>
         {#if authState.isLoggedIn}
-            <Route path="admin" component={Admin} />
-            <Route>
-                <div class="app-content">
+            <div class="app-content">
+                <Route path="admin" component={Admin} />
+                <Route path="list/:id" let:params>
+                    <List listId={params.id} />
+                </Route>
+                <Route path="list/:id/manage" let:params>
+                    <ManageList listId={params.id} />
+                </Route>
+                <Route>
                     <Lists />
-                </div>
-                {#if modalState.show}
-                    <Modal>
-                        <svelte:component
-                            this={modalState.component}
-                            {...modalState.props}
-                        />
-                    </Modal>
-                {/if}
-            </Route>
+                </Route>
+            </div>
+        {/if}
+        {#if modalState.show}
+            <Modal>
+                <svelte:component this={modalState.component} {...modalState.props} />
+            </Modal>
         {/if}
     </Router>
 </main>
