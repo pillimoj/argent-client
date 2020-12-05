@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { navigate } from 'svelte-routing';
     import { client } from './api.js';
     import { closeModal, openShareListModal } from './modals';
     import type { UserOption } from './types.js';
@@ -41,6 +42,10 @@
             shareFunction: shareList,
         });
     };
+    const onDeleteClick = async () => {
+        await client(`api/v1/checklists/${listId}`, { method: 'delete' });
+        navigate('/');
+    };
     onMount(getAllUsers);
     onMount(fetchListUsers);
 </script>
@@ -69,6 +74,9 @@
             <div class="link">+share</div>
         </div>
     {/if}
+    <div class="delete-button-container">
+        <button on:click={onDeleteClick} class="delete-button">Delete</button>
+    </div>
 </div>
 
 <style>
@@ -97,5 +105,25 @@
     }
     .link:hover {
         background-color: #333;
+    }
+    .delete-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+    button.delete-button {
+        font-family: inherit;
+        font-size: inherit;
+        height: 2rem;
+        width: 8rem;
+        box-sizing: border-box;
+        background: #f00;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        margin-right: 1rem;
     }
 </style>
