@@ -1,4 +1,8 @@
-<button type="submit" on:click>
+<script lang="ts">
+    export let disabled: boolean = false;
+</script>
+
+<button type="submit" {disabled} on:click>
     <slot />
 </button>
 
@@ -9,8 +13,8 @@
         height: 3.5rem;
         width: 5rem;
         box-sizing: border-box;
-        background: white;
-        color: black;
+        background: #fff;
+        color: #000;
         display: flex;
         justify-content: center;
         align-items: center;

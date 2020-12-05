@@ -56,9 +56,9 @@
     }
 
     :global(body) {
-        background-color: black;
+        background-color: #000;
         font-family: 'Jost', sans-serif;
-        color: white;
+        color: #fff;
         font-size: 1rem;
         margin: 0;
         padding: 0;

@@ -45,12 +45,12 @@
 
     input.textInput {
         background-clip: padding-box;
-        background-color: black;
-        border: 1px solid white;
+        background-color: #000;
+        border: 1px solid #fff;
         /* border-radius: 4px; */
         box-sizing: border-box;
         box-shadow: none;
-        color: white;
+        color: #fff;
         display: block;
         font-weight: normal;
         font-size: 1em;
@@ -69,8 +69,8 @@
 
     input.textInput.hasValue,
     input.textInput:focus {
-        color: black;
-        background-color: white;
+        color: #000;
+        background-color: #fff;
         outline: none;
         box-shadow: none;
     }
@@ -84,9 +84,9 @@
     }
 
     .textInput.hasValue:not(:focus) {
-        color: white;
-        background-color: black;
-        border: 1px solid white;
+        color: #fff;
+        background-color: #000;
+        border: 1px solid #fff;
     }
 
     .textInput.errorBorder,
@@ -97,7 +97,7 @@
 
     .textInputErrorLabel,
     .textInputAdditionalLabel {
-        color: gray;
+        color: #888;
         display: block;
         font-weight: normal;
         font-size: 12px;
@@ -113,7 +113,7 @@
     }
 
     .textInputLabel {
-        color: gray;
+        color: #888;
         display: block;
         font-weight: normal;
         font-size: 1em;

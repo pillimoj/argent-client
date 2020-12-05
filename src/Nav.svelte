@@ -24,7 +24,7 @@
 
 <style>
     .container {
-        background-color: black;
+        background-color: #000;
         margin: 0 auto;
         max-width: 50rem;
         display: grid;
@@ -36,7 +36,7 @@
         top: 0rem;
     }
     a {
-        color: white;
+        color: #fff;
         text-decoration: none;
     }
 

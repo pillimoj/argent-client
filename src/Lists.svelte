@@ -1,11 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { navigate } from 'svelte-routing';
-    import { get } from 'svelte/store';
     import { client } from './api.js';
-    import { modal, user } from './stores.js';
+    import { modal } from './stores.js';
     import AddList from './modals/AddList.svelte';
-    import Button from './shared/Button.svelte';
+
     let lists = [];
     let newListName = '';
 
@@ -22,6 +21,7 @@
             header: 'Add List',
         });
     };
+
     const updateLists = async () => {
         const data = await client('api/v1/checklists');
         lists = data;
@@ -76,9 +76,9 @@
     }
     .link.manage {
         justify-content: center;
+        color: #888;
     }
     .link:hover {
-        background-color: white;
-        color: black;
+        background-color: #333;
     }
 </style>

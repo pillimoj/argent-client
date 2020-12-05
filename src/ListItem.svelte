@@ -15,6 +15,6 @@
     }
     .done {
         text-decoration: line-through;
-        color: gray;
+        color: #888;
     }
 </style>

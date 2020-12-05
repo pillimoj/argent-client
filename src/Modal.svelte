@@ -66,6 +66,6 @@
         overflow: auto;
         transform: translate(-50%, -50%);
         border-radius: 0.2em;
-        background: black;
+        background: #000;
     }
 </style>
