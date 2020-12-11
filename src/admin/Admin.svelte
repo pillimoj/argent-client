@@ -3,13 +3,30 @@
     import { get } from 'svelte/store';
     import { client } from '../api.js';
     import { user } from '../stores.js';
+    import { closeModal, openAddUserModal } from '../modals';
     let users = [];
 
     const updateUsers = async () => {
         const data = await client('api/v1/admin/users');
         users = data;
     };
+    const addUser = async (userName: string, email: string) => {
+        await client('api/v1/admin/users');
+    };
     onMount(updateUsers);
+
+    const onAddUserClick = () => {
+        openAddUserModal({
+            updateCallback: () => {
+                updateUsers();
+                closeModal();
+            },
+            addFunction: addUser,
+        });
+    };
+
+    let lists = [];
+    let newListName = '';
 </script>
 
 <div class="container">
@@ -17,21 +34,44 @@
         {#each users as user}
             <div>{user.name}</div>
             <div>{user.email}</div>
+            <div class="remove-user hoverable">x</div>
         {/each}
+    </div>
+    <div class="add-user hoverable" on:click={onAddUserClick}>
+        <div class="link">+add user</div>
     </div>
 </div>
 
 <style>
+    :global(a) {
+        color: unset;
+        text-decoration: unset;
+    }
     .container {
         margin-top: 2rem;
     }
 
     .users-grid {
-        height: 2rem;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1rem;
+        grid-auto-rows: 2rem;
         align-items: center;
         padding-left: 0.5rem;
         cursor: pointer;
+    }
+    .add-user {
+        display: flex;
+        align-items: center;
+        height: 2rem;
+        padding-left: 0.5rem;
+        column-span: all;
+    }
+    .remove-user {
+        display: flex;
+        justify-content: center;
+    }
+    .hoverable:hover {
+        background-color: #fff;
+        color: #000;
     }
 </style>

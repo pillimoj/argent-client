@@ -53,7 +53,7 @@
         display: block;
         font-weight: normal;
         font-size: 1em;
-        height: 3.5em;
+        height: 2.5em;
         margin-bottom: 0;
         outline: none;
         padding: 0 1em;
@@ -119,7 +119,7 @@
         left: calc(1em + 1px);
         pointer-events: none;
         position: absolute;
-        top: 1.25em;
+        top: 0.65em;
         z-index: 1;
     }
 
