@@ -1,7 +1,20 @@
 <script lang="ts">
-    import { auth } from './stores.js';
+    import { onMount } from 'svelte';
+    import { client } from './api';
+    import { auth, user } from './stores.js';
     import GoogleLoginButton from './auth/GoogleLoginButton.svelte';
     import Logout from './auth/Logout.svelte';
+
+    const checkAuthStatus = async () => {
+        try {
+            const loggedInUser = await client('api/v1/me');
+            user.set(loggedInUser);
+            auth.set('Authenticated');
+        } catch {
+            auth.set('NeedsLogin');
+        }
+    };
+    onMount(checkAuthStatus);
 
     $: authState = $auth;
 </script>
@@ -14,9 +27,9 @@
     </a>
     <h1>Argent</h1>
     <div class="signin-container">
-        {#if authState.isLoggedIn}
+        {#if authState === 'Authenticated'}
             <Logout />
-        {:else}
+        {:else if authState === 'NeedsLogin'}
             <GoogleLoginButton />
         {/if}
     </div>

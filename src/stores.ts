@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 
 type Role = 'User' | 'Admin';
+type AuthStatus = 'Initial' | 'Authenticated' | 'NeedsLogin';
 interface User {
     id: string;
     email: string;
@@ -17,7 +18,7 @@ interface ModalState {
 
 type Newable<T> = { new (...args: any[]): T };
 
-export const auth = writable({ isLoggedIn: false, idToken: undefined });
+export const auth = writable<AuthStatus>('Initial');
 export const user = writable<User | null>(null);
 
 export const modal = writable<ModalState>({

@@ -1,20 +1,21 @@
 <script lang="ts">
     import { client } from '../api.js';
     import { auth, user } from '../stores.js';
-    window.onSignIn = (googleUser) => {
-        const isLoggedIn = true;
-        const idToken = googleUser.getAuthResponse().id_token;
-        auth.set({
-            isLoggedIn,
-            idToken,
+    const tokenLogin = async (token) => {
+        const userResponse = await client('api/v1/login', {
+            headers: { Authorization: `Bearer ${token}` },
         });
-        client('api/v1/me').then((data) => user.set(data));
+        user.set(userResponse);
+        auth.set('Authenticated');
+    };
+    window.onSignIn = (googleUser) => {
+        const idToken = googleUser.getAuthResponse().id_token;
+        tokenLogin(idToken);
     };
 </script>
 
 <svelte:head>
     <script src="https://apis.google.com/js/platform.js" async defer>
-
     </script>
 </svelte:head>
 

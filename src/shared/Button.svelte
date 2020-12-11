@@ -4,7 +4,7 @@
 
 <style>
     .button-container {
-        height: 3.5rem;
+        height: 2rem;
         min-width: 5rem;
         background-color: #fff;
         color: #000;

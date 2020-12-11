@@ -17,7 +17,7 @@
     <Nav />
     <SpacerV height="5rem" />
     <Router>
-        {#if authState.isLoggedIn}
+        {#if authState === 'Authenticated'}
             <div class="app-content">
                 <Route path="admin" component={Admin} />
                 <Route path="list/:id" let:params>

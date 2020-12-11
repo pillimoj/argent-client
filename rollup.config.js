@@ -16,9 +16,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 const plugins = [
     replace({
-        __apiUrl__: isDevelopment
-            ? 'http://localhost:8008/'
-            : 'https://argent-72ltbia36q-ew.a.run.app/',
+        __apiUrl__: isDevelopment ? '/' : 'https://argent-72ltbia36q-ew.a.run.app/',
     }),
     svelte({
         preprocess: autoPreprocess(),
@@ -43,7 +41,7 @@ if (isDevelopment) {
         dev({
             dirs: [buildFolder],
             port: 5000,
-            // not needed with CORS proxy: { '/api/*': 'http://localhost:8008/' },
+            proxy: { '/api/*': 'http://localhost:8008/' }, // needed for samesite without https
             spa: `./${buildFolder}/index.html`,
         }),
         livereload({ watch: `./${buildFolder}` }),
