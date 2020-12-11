@@ -14,7 +14,7 @@ export async function client(
         'content-type': 'application/json',
     };
 
-    const config = {
+    const config: RequestInit = {
         method: body ? 'POST' : 'GET',
         ...customConfig,
         headers: {
@@ -22,6 +22,7 @@ export async function client(
             ...customConfig.headers,
         },
         body: undefined,
+        credentials: 'include',
     };
     if (body) {
         config.body = JSON.stringify(body);

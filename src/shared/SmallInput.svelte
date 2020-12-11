@@ -5,15 +5,8 @@
     export let noBorder = false;
     export let error = null;
     export let additional;
-    export let type = 'text';
 
     let hasPlaceholder = !!placeholder;
-    // Can only be set when creating component
-    const allowedTypes = ['text', 'email', 'password'];
-    const typeIsAllowed = allowedTypes.includes(type);
-    if (!typeIsAllowed) {
-        console.error(`Type must be one of: ${allowedTypes}`);
-    }
 </script>
 
 <div class="textInputContainer">
