@@ -9,7 +9,6 @@
     let email = '';
 
     const onAddUserSubmit = async () => {
-        return console.log({ userName, email });
         await addFunction(userName, email);
         updateCallback();
     };
@@ -19,10 +18,10 @@
     <h2>Share List</h2>
     <form on:submit|preventDefault={onAddUserSubmit}>
         <div class="input">
-            <SmallInput placeholder="Username" type="text" bind:value={userName} />
+            <SmallInput placeholder="Username" bind:value={userName} />
         </div>
         <div class="input">
-            <SmallInput placeholder="Email" type="text" bind:value={email} />
+            <SmallInput placeholder="Email" bind:value={email} />
         </div>
         <div class="button-section">
             <button type="submit">Add User</button>

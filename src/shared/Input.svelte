@@ -4,7 +4,7 @@
     export let errorBorder = false;
     export let noBorder = false;
     export let error = null;
-    export let additional;
+    export let additional = null;
 
     let hasPlaceholder = !!placeholder;
 </script>

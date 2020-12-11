@@ -1,9 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { navigate } from 'svelte-routing';
-    import { client } from './api.js';
-    import { closeModal, openShareListModal } from './modals';
-    import type { UserOption } from './types.js';
+    import { client } from './api';
+    import { closeModal } from './modals';
+    import { openShareListModal } from './modals/create';
+    import type { UserOption } from './types';
 
     export let listId: string;
 

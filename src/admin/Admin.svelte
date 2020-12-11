@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { get } from 'svelte/store';
     import { client } from '../api.js';
-    import { user } from '../stores.js';
-    import { closeModal, openAddUserModal } from '../modals';
+    import { closeModal } from '../modals';
+    import { openAddUserModal } from '../modals/create';
+
     let users = [];
 
     const updateUsers = async () => {
@@ -11,7 +11,7 @@
         users = data;
     };
     const addUser = async (userName: string, email: string) => {
-        await client('api/v1/admin/users');
+        await client('api/v1/admin/users', { body: { userName, email } });
     };
     onMount(updateUsers);
 
@@ -24,6 +24,10 @@
             addFunction: addUser,
         });
     };
+    const onRemoveUserClick = (userId: string) => async () => {
+        await client(`api/v1/admin/users/${userId}`, { method: 'delete' });
+        updateUsers();
+    };
 
     let lists = [];
     let newListName = '';
@@ -34,7 +38,9 @@
         {#each users as user}
             <div>{user.name}</div>
             <div>{user.email}</div>
-            <div class="remove-user hoverable">x</div>
+            <div class="remove-user hoverable" on:click={onRemoveUserClick(user.id)}>
+                x
+            </div>
         {/each}
     </div>
     <div class="add-user hoverable" on:click={onAddUserClick}>
