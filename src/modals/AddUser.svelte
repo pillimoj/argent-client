@@ -7,6 +7,7 @@
 
     let userName = '';
     let email = '';
+    $: disabled = !userName || !email;
 
     const onAddUserSubmit = async () => {
         await addFunction(userName, email);
@@ -24,8 +25,8 @@
             <SmallInput placeholder="Email" bind:value={email} />
         </div>
         <div class="button-section">
-            <button type="submit">Add User</button>
-            <button on:click={closeModal}>Cancel</button>
+            <button {disabled} class:disabled type="submit">Add User</button>
+            <button on:click|preventDefault={closeModal}>Cancel</button>
         </div>
     </form>
 </div>
@@ -47,6 +48,9 @@
         align-items: center;
         cursor: pointer;
         border: none;
+    }
+    button.disabled {
+        background: #888;
     }
     .container {
         padding: 2rem;
