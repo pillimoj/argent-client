@@ -5,10 +5,15 @@ const loader = new ScriptLoader({
     global: 'gapi',
 });
 
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const clientId =
     '487251436763-osourolcp58kh2q3t5qofapllbflnutr.apps.googleusercontent.com';
 
 const initialise = async () => {
+    await sleep(10000);
     const gapiScript: any = await loader.load();
     await new Promise((res, rej) => {
         gapiScript.load('client:auth2', { callback: res, onerror: rej });
@@ -20,7 +25,7 @@ let res;
 let processed = false;
 const authInstancePromise = () => {
     if (processed) return res;
-    res = initialise());
+    res = initialise();
     processed = true;
     return res;
 };
