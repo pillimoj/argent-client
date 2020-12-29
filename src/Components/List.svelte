@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { client } from './api.js';
+    import type { ListItem as TListItem } from '../ArgentTypes';
+    import { client } from '../api.js';
     import ListItem from './ListItem.svelte';
     import Button from './shared/Button.svelte';
     import AddItem from './shared/AddItem.svelte';
@@ -12,16 +12,15 @@
     let newItemTitle = '';
 
     const fetchListItems = async (id) => {
-        const data = await client(`api/v1/checklists/${id}`);
+        const data = await client<TListItem[]>(`api/v1/checklists/${id}`);
         todoItems = data.filter((it) => !it.done);
         doneItems = data.filter((it) => it.done);
     };
     const onClickItem = (itemId, done) => async () => {
-        if(done){
+        if (done) {
             await client(`api/v1/checklistitems/${itemId}/done`, { method: 'post' });
             fetchListItems(listId);
-        }
-        else {
+        } else {
             await client(`api/v1/checklistitems/${itemId}/not-done`, { method: 'post' });
             fetchListItems(listId);
         }

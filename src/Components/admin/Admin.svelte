@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { client } from '../api.js';
+    import { client } from '../../api.js';
     import { closeModal } from '../modals';
     import { openAddUserModal } from '../modals/create';
 

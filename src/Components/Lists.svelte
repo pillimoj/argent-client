@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { navigate } from 'svelte-routing';
-    import { client } from './api.js';
-    import { modal } from './stores.js';
+    import { client } from '../api.js';
+    import { modal } from '../stores.js';
     import AddList from './modals/AddList.svelte';
 
     let lists = [];

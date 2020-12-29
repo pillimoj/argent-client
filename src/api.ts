@@ -6,10 +6,6 @@ interface ClientConfig extends RequestInit {
     body?: any;
 }
 
-interface ClientError {
-    error: any;
-}
-
 export async function client<T>(
     endpoint: string,
     { body, ...customConfig }: ClientConfig = {},

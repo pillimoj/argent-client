@@ -1,5 +1,5 @@
-import { modal } from '../stores';
-import type { UserOption } from '../types';
+import { modal } from '../../stores';
+import type { UserOption } from '../../types';
 import ShareList from './ShareList.svelte';
 import AddUser from './AddUser.svelte';
 

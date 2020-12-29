@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { client } from '../../api';
+
     import AddItem from '../shared/AddItem.svelte';
-    import { client } from '../api.js';
 
     let newListName = '';
     export let updateCallback;

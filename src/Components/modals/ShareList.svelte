@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { UserOption } from '../types.js';
+    import type { UserOption } from '../../ArgentTypes';
     import { closeModal } from './';
 
     export let updateCallback: () => void;

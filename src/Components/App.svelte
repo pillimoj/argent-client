@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Router, Route } from 'svelte-routing';
-    import { auth, modal } from './stores.js';
+    import { auth, modal } from '../stores.js';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './Lists.svelte';

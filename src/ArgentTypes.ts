@@ -6,6 +6,12 @@ export interface User {
     name: string;
     role: Role;
 }
+
+export interface UserOption {
+    id: string;
+    name: string;
+}
+
 export interface List {
     id: string;
     name: string;

@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { onDestroy } from 'svelte';
+    import { onDestroy, SvelteComponent } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { modal as modalStore } from './stores.js';
+    import { modal as modalStore } from '../stores.js';
 
     const close = () => modalStore.set({ show: false });
 
-    let modal;
+    let modal: Element;
 
     const handle_keydown = (e) => {
         if (e.key === 'Escape') {
@@ -16,7 +16,9 @@
         if (e.key === 'Tab') {
             // trap focus
             const nodes = modal.querySelectorAll('*');
-            const tabbable = Array.from(nodes).filter((n) => n.tabIndex >= 0);
+            const tabbable = Array.from(nodes).filter(
+                (n: HTMLInputElement) => n.tabIndex >= 0,
+            );
 
             let index = tabbable.indexOf(document.activeElement);
             if (index === -1 && e.shiftKey) index = 0;
@@ -24,7 +26,7 @@
             index += tabbable.length + (e.shiftKey ? -1 : 1);
             index %= tabbable.length;
 
-            tabbable[index].focus();
+            (<HTMLInputElement>tabbable[index]).focus();
             e.preventDefault();
         }
     };
