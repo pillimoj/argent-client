@@ -1,22 +1,66 @@
-<script lang="ts">
-    import { client } from '../api.js';
-    import { auth, user } from '../stores.js';
-    const tokenLogin = async (token) => {
-        const userResponse = await client('api/v1/login', {
-            headers: { Authorization: `Bearer ${token}` },
+<script>
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { Button } from 'carbon-components-svelte';
+    import GoogleLogo from './GoogleLogo.svelte';
+
+    const loadScript = (url, test, callback) => {
+        if (test()) {
+            return callback();
+        }
+        const tag = document.createElement('script');
+        tag.src = url;
+        tag.async = true;
+        tag.defer = true;
+        tag.onload = callback;
+        document.body.appendChild(tag);
+    };
+    const dispatch = createEventDispatcher();
+    let signinCta;
+    export let clientId;
+    export let text = 'Sign in with Google';
+    let disabled = true;
+    onMount(() => {
+        loadScript(
+            '//apis.google.com/js/api:client.js',
+            () => window['gapi'],
+            () => initialise(),
+        );
+    });
+    let GoogleAuth;
+    function initialise() {
+        gapi.load('auth2', async () => {
+            GoogleAuth = gapi.auth2.init({ client_id: clientId });
+            GoogleAuth.then(onAuthInitialized, handleInitialisationError);
         });
-        user.set(userResponse);
-        auth.set('Authenticated');
-    };
-    window.onSignIn = (googleUser) => {
-        const idToken = googleUser.getAuthResponse().id_token;
-        tokenLogin(idToken);
-    };
+    }
+    function onAuthInitialized() {
+        if (GoogleAuth.isSignedIn.get()) {
+            dispatch('auth-success', { user: GoogleAuth.currentUser.get() });
+        }
+        attachHandler();
+    }
+    function attachHandler() {
+        GoogleAuth.attachClickHandler(
+            signinCta,
+            {},
+            () => dispatch('auth-success', { user: GoogleAuth.currentUser.get() }),
+            (e) => dispatch('auth-failure', { error: e }),
+        );
+        disabled = false;
+    }
+    function handleInitialisationError(e) {
+        console.error('gauth initialisation error', e);
+        dispatch('init-error', { error: e });
+    }
 </script>
 
-<svelte:head>
-    <script src="https://apis.google.com/js/platform.js" async defer>
-    </script>
-</svelte:head>
+<Button bind:ref={signinCta} {disabled} class="google-auth">
+    <GoogleLogo />
+    <span class="login-text">Log in</span>
+</Button>
 
-<div class="g-signin2" data-width="36" data-onsuccess="onSignIn" />
+<style>
+    .login-text {
+        margin-left: 1rem;
+    }
+</style>

@@ -6,10 +6,14 @@ interface ClientConfig extends RequestInit {
     body?: any;
 }
 
-export async function client(
+interface ClientError {
+    error: any;
+}
+
+export async function client<T>(
     endpoint: string,
     { body, ...customConfig }: ClientConfig = {},
-) {
+): Promise<T> {
     const headers = {
         'content-type': 'application/json',
     };
@@ -27,11 +31,23 @@ export async function client(
     if (body) {
         config.body = JSON.stringify(body);
     }
-    const response = await window.fetch(apiUrl + endpoint, config);
-    const data = await response.json();
+    let response;
+    try {
+        response = await window.fetch(apiUrl + endpoint, config);
+    } catch (error) {
+        return await Promise.reject({ error });
+    }
     if (response.ok) {
-        return data;
+        return await response.json();
     } else {
-        return await Promise.reject(data);
+        let text = await response.text();
+        try {
+            const data = JSON.parse(text);
+            if (data?.error === 'Unauthorized') {
+                auth.set('NeedsLogin');
+            }
+            text = data?.error ?? data;
+        } catch {}
+        return await Promise.reject(text);
     }
 }
