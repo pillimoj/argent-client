@@ -1,11 +1,12 @@
 <script lang="ts">
     import { Router, Route } from 'svelte-routing';
-    import { auth, modal } from '../stores.js';
+    import { auth, modal, user } from '../stores.js';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './Lists.svelte';
     import List from './List.svelte';
     import ManageList from './ManageList.svelte';
+    import WishList from './WishList.svelte';
     import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
@@ -25,6 +26,12 @@
                 </Route>
                 <Route path="list/:id/manage" let:params>
                     <ManageList listId={params.id} />
+                </Route>
+                <Route path="wishlist">
+                    <WishList user={$user} />
+                </Route>
+                <Route path="wishlist/:id" let:params>
+                    <WishList user={$user} listId={params.id} />
                 </Route>
                 <Route>
                     <Lists />
