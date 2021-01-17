@@ -25,12 +25,11 @@
     .title {
         font-weight: 700;
         width: 5rem;
-        padding-left: 1rem;
     }
     .text {
         white-space: nowrap;
         overflow-x: hidden;
         text-overflow: ellipsis;
-        padding-right: 1.5rem;
+        padding: 0 1.5rem;
     }
 </style>

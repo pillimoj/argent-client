@@ -1,34 +1,51 @@
 <script lang="ts">
     import type { User, WishlistItem } from '../../ArgentTypes';
+    import { user } from '../../stores';
+    import { closeModal } from './';
 
     import Button from '../shared/Button.svelte';
 
     export let item: WishlistItem;
-    export let user: User;
-    export let reserveItemClick: (item: WishlistItem, user: User) => Promise<void>;
-    export let releaseItemClick: (item: WishlistItem) => Promise<void>;
+    export let reserveItem: (item: WishlistItem, user: User) => Promise<void>;
+    export let releaseItem: (item: WishlistItem) => Promise<void>;
 
     const taken = item.takenBy !== null;
-    const takenByUser = item.takenBy === user.id;
+    const takenByUser = item.takenBy === $user.id;
+
+    const onClickReserve = async () => {
+        await reserveItem(item, $user);
+        closeModal();
+    };
+
+    const onClickRelease = async () => {
+        await releaseItem(item);
+        closeModal();
+    };
 </script>
 
 <div class="container">
     <h2>{item.title}</h2>
     <p>{item.description}</p>
     <div class="actions">
-        <Button on:click={closeModal}>Back</Button>
+        <Button on:click={closeModal} type="shadow">Back</Button>
         {#if !taken}
-            <Button on:click={() => reserveItemClick(item, user)}>Reserve</Button>
+            <Button on:click={onClickReserve} type="confirm">Reserve</Button>
         {/if}
         {#if takenByUser}
-            <Button on:click={() => releaseItemClick(item)}>Reserve</Button>
+            <Button on:click={onClickRelease} type={'danger'}>Release</Button>
         {/if}
     </div>
 </div>
 
 <style>
+    h2 {
+        margin-top: 0;
+    }
+    .container {
+        padding: 1rem;
+    }
     .actions {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
     }
 </style>

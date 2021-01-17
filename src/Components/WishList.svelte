@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { WishlistItem as TListItem, User } from '../ArgentTypes';
     import { client } from '../api.js';
+    import { openWishlistItemModal } from './modals/create';
     import WishListItem from './WishListItem.svelte';
     import Button from './shared/Button.svelte';
 
@@ -11,7 +12,7 @@
     const mockData: TListItem[] = [
         {
             id: 'abc1',
-            title: 'abc1',
+            title: 'This item has a very long title',
             description: 'This is the very long description of the item',
             takenBy: null,
             user: 'abc',
@@ -42,13 +43,21 @@
     const fetchListItems = async (id) => {
         items = mockData; //await client<TListItem[]>(`api/v1/checklists/${id}`);
     };
-    const onClickTake = (itemId, done) => async () => {
-        await client(`api/v1/wishlist-items/${itemId}/take`, { method: 'post' });
+    const reserveItem = async (item: TListItem, user: User) => {
+        await client(`api/v1/wishlist-items/${item.id}/take`, { method: 'post' });
         fetchListItems(listId);
     };
-    const onClickRelease = async () => {
-        await client(`api/v1/ishlist-items/${listId}/release`, { method: 'post' });
+    const releaseItem = async (item: TListItem) => {
+        await client(`api/v1/ishlist-items/${item.id}/release`, { method: 'post' });
         fetchListItems(listId);
+    };
+
+    const onItemClick = (item: TListItem) => () => {
+        openWishlistItemModal({
+            item,
+            releaseItem,
+            reserveItem,
+        });
     };
 
     $: fetchListItems(listId);
@@ -56,7 +65,7 @@
 
 <div class="list-container">
     {#each items as item}
-        <WishListItem {item} />
+        <WishListItem {item} on:click={onItemClick(item)} />
     {/each}
 </div>
 
