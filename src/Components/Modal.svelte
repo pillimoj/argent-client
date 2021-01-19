@@ -5,7 +5,8 @@
 
     const close = () => modalStore.set({ show: false });
 
-    let modal: Element;
+    // binding used for focus trap
+    let modalElement: Element;
 
     const handle_keydown = (e) => {
         if (e.key === 'Escape') {
@@ -15,7 +16,7 @@
 
         if (e.key === 'Tab') {
             // trap focus
-            const nodes = modal.querySelectorAll('*');
+            const nodes = modalElement.querySelectorAll('*');
             const tabbable = Array.from(nodes).filter(
                 (n: HTMLInputElement) => n.tabIndex >= 0,
             );
@@ -44,7 +45,13 @@
 
 <div transition:fade class="modal-background" on:click={close} />
 
-<div transition:fade class="modal" role="dialog" aria-modal="true" bind:this={modal}>
+<div
+    transition:fade
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    bind:this={modalElement}
+>
     <slot />
 </div>
 

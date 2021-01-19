@@ -1,27 +1,50 @@
 <script lang="ts">
-    export let value;
-    export let placeholder = null;
-    export let errorBorder = false;
-    export let noBorder = false;
-    export let error = null;
-    export let additional = null;
+    export let value: string;
+    export let placeholder: string | null = null;
+    export let errorBorder: boolean = false;
+    export let noBorder: boolean = false;
+    export let error: string | null = null;
+    export let additional: string | null = null;
+    export let multiline: boolean = false;
+    export let maxRows: number = 5;
 
     let hasPlaceholder = !!placeholder;
+
+    const calculateRows = (text: string, max: number): number => {
+        if (!multiline) return 1;
+        const rows = text.split('\n');
+        const numRows = Math.max(1, rows.length);
+        return Math.min(numRows, max);
+    };
+
+    $: multilineRows = calculateRows(value, maxRows);
 </script>
 
 <div class="textInputContainer">
     {#if placeholder}
         <label class="textInputLabel" class:hasValue={value}>{placeholder}</label>
     {/if}
-    <input
-        bind:value
-        class="textInput"
-        class:errorBorder
-        class:hasValue={value}
-        class:hasPlaceholder
-        class:noBorder
-        type="text"
-    />
+    {#if multiline}
+        <textarea
+            bind:value
+            class="textInput multiline"
+            class:errorBorder
+            class:hasValue={value}
+            class:hasPlaceholder
+            class:noBorder
+            rows={multilineRows}
+        />
+    {:else}
+        <input
+            bind:value
+            class="textInput"
+            class:errorBorder
+            class:hasValue={value}
+            class:hasPlaceholder
+            class:noBorder
+            type="text"
+        />
+    {/if}
     {#if error}
         <div class="textInputErrorLabel">{error}</div>
     {:else if additional}
@@ -35,7 +58,8 @@
         font-size: 16px;
     }
 
-    input.textInput {
+    input.textInput,
+    textarea.textInput {
         background-clip: padding-box;
         background-color: #000;
         border: 1px solid #fff;
@@ -53,12 +77,22 @@
         transform: translate3d(0, 0, 0);
         transition: 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
         width: 100%;
+        font-family: inherit;
+        font-size: inherit;
+    }
+    textarea.textInput.multiline {
+        padding-top: 1rem;
+        min-height: 3.5rem;
+        height: auto;
+        resize: none;
     }
 
     .textInput.hasPlaceholder.hasValue {
         padding: 1.5em 1em 0.625em;
     }
 
+    textarea.textInput.hasValue,
+    textarea.textInput:focus,
     input.textInput.hasValue,
     input.textInput:focus {
         color: #000;
@@ -67,6 +101,10 @@
         box-shadow: none;
     }
 
+    textarea.noBorder.textInput,
+    textarea.noBorder.textInput.hasValue,
+    textarea.noBorder.textInput:focus,
+    textarea.noBorder.textInput:hover,
     input.noBorder.textInput,
     input.noBorder.textInput.hasValue,
     input.noBorder.textInput:focus,

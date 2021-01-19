@@ -2,11 +2,11 @@
     import { onMount } from 'svelte';
     import { navigate } from 'svelte-routing';
 
-    import type { UserOption } from '../ArgentTypes';
-    import { client } from '../api';
+    import type { UserOption } from '../../ArgentTypes';
+    import { client } from '../../api';
 
-    import { closeModal } from './modals';
-    import { openShareListModal } from './modals/create';
+    import { closeModal } from '../modals';
+    import { openShareListModal } from '../modals/create';
 
     export let listId: string;
 

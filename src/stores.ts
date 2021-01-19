@@ -13,7 +13,6 @@ interface ModalState {
     show: boolean;
     component?: any;
     props?: object;
-    header?: string;
 }
 
 type Newable<T> = { new (...args: any[]): T };
@@ -25,5 +24,4 @@ export const modal = writable<ModalState>({
     show: false,
     component: null,
     props: null,
-    header: null,
 });

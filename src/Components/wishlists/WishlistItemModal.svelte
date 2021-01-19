@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { User, WishlistItem } from '../../ArgentTypes';
     import { user } from '../../stores';
-    import { closeModal } from './';
+    import { closeModal } from '../modals';
 
     import Button from '../shared/Button.svelte';
 

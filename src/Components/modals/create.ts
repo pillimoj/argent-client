@@ -2,7 +2,8 @@ import { modal } from '../../stores';
 import type { WishlistItem, User, UserOption } from '../../ArgentTypes';
 import ShareList from './ShareList.svelte';
 import AddUser from './AddUser.svelte';
-import WishlistItemModal from './WishlistItemModal.svelte';
+import WishlistItemModal from '../wishlists/WishlistItemModal.svelte';
+import WishlistEditItemModal from '../wishlists/WishlistEditItemModal.svelte';
 
 export const openShareListModal = ({
     userOptions,
@@ -21,7 +22,6 @@ export const openShareListModal = ({
             updateCallback,
             shareFunction,
         },
-        header: 'Share List',
     });
 };
 
@@ -39,7 +39,6 @@ export const openAddUserModal = ({
             updateCallback,
             addFunction,
         },
-        header: 'Add User',
     });
 };
 
@@ -60,6 +59,28 @@ export const openWishlistItemModal = ({
             reserveItem,
             releaseItem,
         },
-        header: 'Add User',
+    });
+};
+
+export const openWishlistEditItemModal = ({
+    item,
+    deleteItem,
+    editItem,
+    createItem,
+}: {
+    item: WishlistItem | null;
+    deleteItem: (item: WishlistItem) => Promise<void>;
+    editItem: (item: WishlistItem) => Promise<void>;
+    createItem: (item: WishlistItem) => Promise<void>;
+}) => {
+    modal.set({
+        component: WishlistEditItemModal,
+        show: true,
+        props: {
+            item,
+            deleteItem,
+            editItem,
+            createItem,
+        },
     });
 };

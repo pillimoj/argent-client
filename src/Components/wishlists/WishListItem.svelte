@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { WishlistItem } from '../ArgentTypes';
+    import type { WishlistItem } from '../../ArgentTypes';
 
     export let item: WishlistItem;
 </script>
 
 <div class="item" class:taken={item.takenBy !== null} on:click>
     <div class="title text">{item.title}</div>
-    <div class="text">{item.description}</div>
+    <div class="description text">{item.description.replaceAll('\n', ' | ')}</div>
 </div>
 
 <style>
@@ -25,6 +25,10 @@
     .title {
         font-weight: 700;
         width: 5rem;
+    }
+    .description {
+        color: #888;
+        font-size: 0.8rem;
     }
     .text {
         white-space: nowrap;

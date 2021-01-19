@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { ListItem as TListItem } from '../ArgentTypes';
-    import { client } from '../api.js';
+    import type { ListItem as TListItem } from '../../ArgentTypes';
+    import { client } from '../../api.js';
     import ListItem from './ListItem.svelte';
-    import Button from './shared/Button.svelte';
-    import AddItem from './shared/AddItem.svelte';
-    import SpacerV from './shared/SpacerV.svelte';
+    import Button from '../shared/Button.svelte';
+    import AddItem from '../shared/AddItem.svelte';
+    import SpacerV from '../shared/SpacerV.svelte';
 
     export let listId;
     let todoItems = [];

@@ -1,12 +1,12 @@
 <script lang="ts">
+    import type { List as TList } from '../../ArgentTypes';
     import { onMount } from 'svelte';
     import { navigate } from 'svelte-routing';
-    import { client } from '../api.js';
-    import { modal } from '../stores.js';
-    import AddList from './modals/AddList.svelte';
+    import { client } from '../../api.js';
+    import { modal } from '../../stores.js';
+    import AddList from '../modals/AddList.svelte';
 
-    let lists = [];
-    let newListName = '';
+    let lists: TList[] = [];
 
     const openAddListModal = () => {
         modal.set({
@@ -23,7 +23,7 @@
     };
 
     const updateLists = async () => {
-        const data = await client('api/v1/checklists');
+        const data = await client<TList[]>('api/v1/checklists');
         lists = data;
     };
 
