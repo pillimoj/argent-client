@@ -1,4 +1,4 @@
-import { auth } from './stores';
+import authentication from './auth';
 
 const apiUrl = '__apiUrl__';
 
@@ -40,7 +40,7 @@ export async function client<T>(
         try {
             const data = JSON.parse(text);
             if (data?.error === 'Unauthorized') {
-                auth.set('NeedsLogin');
+                authentication.authStatus.set('NeedsLogin');
             }
             text = data?.error ?? data;
         } catch {}

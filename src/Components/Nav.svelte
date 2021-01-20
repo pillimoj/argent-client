@@ -1,15 +1,21 @@
 <script lang="ts">
-    import AuthButtons from './AuthButtons.svelte';
+    import LoginButton from './LoginButton.svelte';
+    import Hamburger from './shared/Hamburger.svelte';
+
+    export let menuOpen: boolean;
+    export let clickMenu: () => void;
 </script>
 
 <div class="container">
+    <div class="left">
+        <Hamburger bind:open={menuOpen} on:click={clickMenu} />
+        <h1>Argent</h1>
+    </div>
     <a href="/">
         <div class="icon-container">
             <div>A</div>
         </div>
     </a>
-    <h1>Argent</h1>
-    <AuthButtons />
 </div>
 
 <style>
@@ -17,8 +23,8 @@
         background-color: #000;
         margin: 0 auto;
         max-width: 50rem;
-        display: grid;
-        grid-template-columns: 5rem 1fr 12rem;
+        display: flex;
+        justify-content: space-between;
         align-items: baseline;
         width: 100%;
         height: 5rem;
@@ -30,6 +36,9 @@
         text-decoration: none;
     }
 
+    h1 {
+        margin-left: 1rem;
+    }
     .icon-container {
         transform: rotate(180deg);
         height: 5rem;
@@ -38,6 +47,11 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
     }
 
     @media (min-width: 40rem) {

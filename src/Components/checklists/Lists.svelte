@@ -18,7 +18,6 @@
                     updateLists();
                 },
             },
-            header: 'Add List',
         });
     };
 
@@ -64,7 +63,6 @@
         display: grid;
         grid-template-columns: 1fr 5rem;
         align-items: center;
-        padding-left: 0.5rem;
         cursor: pointer;
     }
     .link {

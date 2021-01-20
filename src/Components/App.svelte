@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Router, Route } from 'svelte-routing';
-    import { auth, modal, user } from '../stores.js';
+    import { modal } from '../stores.js';
+    import { authStatus, user } from '../auth/store';
+    import LoginButton from './LoginButton.svelte';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './checklists/Lists.svelte';
@@ -11,40 +13,40 @@
     import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
-    $: modalState = $modal;
-    $: authState = $auth;
+    let menuOpen = false;
+    const clickMenu = () => (menuOpen = !menuOpen);
 </script>
 
 <main>
-    <Nav />
+    <Nav {menuOpen} {clickMenu} />
     <SpacerV height="5rem" />
     <Router>
-        {#if authState === 'Authenticated'}
-            <div class="app-content">
-                <Route path="admin" component={Admin} />
-                <Route path="list/:id" let:params>
-                    <List listId={params.id} />
-                </Route>
-                <Route path="list/:id/manage" let:params>
-                    <ManageList listId={params.id} />
-                </Route>
-                <Route path="wishlist">
-                    <WishList user={$user} />
-                </Route>
-                <Route path="my-wishlist">
-                    <MyWishList user={$user} />
-                </Route>
-                <Route path="wishlist/:id" let:params>
-                    <WishList user={$user} listId={params.id} />
-                </Route>
-                <Route>
-                    <Lists />
-                </Route>
-            </div>
+        {#if $authStatus === 'Authenticated'}
+            <Route path="admin" component={Admin} />
+            <Route path="list/:id" let:params>
+                <List listId={params.id} />
+            </Route>
+            <Route path="list/:id/manage" let:params>
+                <ManageList listId={params.id} />
+            </Route>
+            <Route path="wishlist">
+                <WishList user={$user} />
+            </Route>
+            <Route path="my-wishlist">
+                <MyWishList user={$user} />
+            </Route>
+            <Route path="wishlist/:id" let:params>
+                <WishList user={$user} listId={params.id} />
+            </Route>
+            <Route>
+                <Lists />
+            </Route>
+        {:else}
+            <LoginButton />
         {/if}
-        {#if modalState.show}
+        {#if $modal.show}
             <Modal>
-                <svelte:component this={modalState.component} {...modalState.props} />
+                <svelte:component this={$modal.component} {...$modal.props} />
             </Modal>
         {/if}
     </Router>
@@ -54,10 +56,6 @@
     main {
         margin: 0 auto;
         max-width: 50rem;
-    }
-
-    .app-content {
-        margin: 0 1rem;
     }
 
     @media (min-width: 40rem) {

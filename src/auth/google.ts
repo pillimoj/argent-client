@@ -1,4 +1,4 @@
-import ScriptLoader from './ScriptLoader';
+import ScriptLoader from '../util/scriptloader';
 
 const loader = new ScriptLoader({
     url: '//apis.google.com/js/api:client.js',
