@@ -7,13 +7,20 @@
     export let additional = null;
 
     let hasPlaceholder = !!placeholder;
+    let randomId = Math.random().toString();
 </script>
 
 <div class="textInputContainer">
     {#if placeholder}
-        <label class="textInputLabel" class:hasValue={value}>{placeholder}</label>
+        let randomId = Math.random().toString();
+        <label
+            for={randomId}
+            class="textInputLabel"
+            class:hasValue={value}
+        >{placeholder}</label>
     {/if}
     <input
+        id={randomId}
         bind:value
         class="textInput"
         class:errorBorder

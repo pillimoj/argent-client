@@ -17,15 +17,22 @@
         return Math.min(numRows, max);
     };
 
+    let randomId = Math.random().toString();
+
     $: multilineRows = calculateRows(value, maxRows);
 </script>
 
 <div class="textInputContainer">
     {#if placeholder}
-        <label class="textInputLabel" class:hasValue={value}>{placeholder}</label>
+        <label
+            for={randomId}
+            class="textInputLabel"
+            class:hasValue={value}
+        >{placeholder}</label>
     {/if}
     {#if multiline}
         <textarea
+            id={randomId}
             bind:value
             class="textInput multiline"
             class:errorBorder
@@ -36,6 +43,7 @@
         />
     {:else}
         <input
+            id={randomId}
             bind:value
             class="textInput"
             class:errorBorder

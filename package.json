@@ -1,6 +1,7 @@
 {
     "name": "argent-client",
     "version": "1.0.0",
+    "license": "UNLICENSED",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^11.1.0",
         "@rollup/plugin-node-resolve": "^7.0.0",
