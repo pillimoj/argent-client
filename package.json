@@ -31,7 +31,7 @@
     },
     "scripts": {
         "dev": "cross-env NODE_ENV=development rollup -c -w",
-        "build": "cross-env NODE_ENV=production rollup -c",
+        "build": "cross-env NODE_ENV=production rollup -c --failAfterWarnings",
         "format": "prettier --write src",
         "deploy": "yarn build && firebase deploy",
         "ci": "yarn install && yarn deploy"
