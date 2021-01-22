@@ -6,6 +6,7 @@
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './checklists/Lists.svelte';
+    import WishLists from './wishlists/WishLists.svelte';
     import List from './checklists/List.svelte';
     import ManageList from './checklists/ManageList.svelte';
     import WishList from './wishlists/WishList.svelte';
@@ -29,14 +30,14 @@
             <Route path="list/:id/manage" let:params>
                 <ManageList listId={params.id} />
             </Route>
-            <Route path="wishlist">
-                <WishList user={$user} />
+            <Route path="wishlists">
+                <WishLists />
             </Route>
             <Route path="my-wishlist">
                 <MyWishList user={$user} />
             </Route>
             <Route path="wishlist/:id" let:params>
-                <WishList user={$user} listId={params.id} />
+                <WishList listId={params.id} />
             </Route>
             <Route>
                 <Lists />

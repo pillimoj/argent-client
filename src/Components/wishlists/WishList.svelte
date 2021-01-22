@@ -5,42 +5,10 @@
     import WishListItem from './WishListItem.svelte';
 
     export let listId: String;
-    export let user: User;
     let items: TListItem[] = [];
 
-    const mockData: TListItem[] = [
-        {
-            id: 'abc1',
-            title: 'This item has a very long title',
-            description: 'This is the very long description of the item',
-            takenBy: null,
-            user: 'abc',
-        },
-        {
-            id: 'abc2',
-            title: 'abc2',
-            description: 'This is the very long description of the item',
-            takenBy: user.id,
-            user: 'abc',
-        },
-        {
-            id: 'abc2',
-            title: 'abc2',
-            description: 'This is the very long description of the item',
-            takenBy: 'abc2',
-            user: 'abc',
-        },
-        {
-            id: 'abc3',
-            title: 'abc3',
-            description: 'This is the description of the item',
-            takenBy: null,
-            user: 'abc',
-        },
-    ];
-
     const fetchListItems = async (id) => {
-        items = mockData; //await client<TListItem[]>(`api/v1/checklists/${id}`);
+        items = await client<TListItem[]>(`api/v1/checklists/${id}`);
     };
     const reserveItem = async (item: TListItem, user: User) => {
         await client(`api/v1/wishlist-items/${item.id}/take`, { method: 'post' });
