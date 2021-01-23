@@ -1,14 +1,19 @@
 <script lang="ts">
-    import type { WishlistItem as TListItem, User } from '../../ArgentTypes';
+    import type { WishlistItem as TListItem, User, UserOption } from '../../ArgentTypes';
     import { client } from '../../api.js';
     import { openWishlistItemModal } from '../modals/create';
     import WishListItem from './WishListItem.svelte';
 
-    export let listId: String;
+    export let listId: string;
     let items: TListItem[] = [];
+    let listUser: UserOption | null = null;
 
-    const fetchListItems = async (id) => {
-        items = await client<TListItem[]>(`api/v1/checklists/${id}`);
+    const fetchListItems = async (id: string) => {
+        items = await client<TListItem[]>(`api/v1/wishlists/${id}`);
+    };
+    const fetchUser = async (id: string) => {
+        const user = await client<UserOption>(`api/v1/users/${id}`);
+        listUser = user;
     };
     const reserveItem = async (item: TListItem, user: User) => {
         await client(`api/v1/wishlist-items/${item.id}/take`, { method: 'post' });
@@ -19,7 +24,7 @@
         fetchListItems(listId);
     };
 
-    const onItemClick = (item: TListItem) => () => {
+    const activateItem = (item: TListItem) => {
         openWishlistItemModal({
             item,
             releaseItem,
@@ -27,12 +32,27 @@
         });
     };
 
+    const onItemClick = (item: TListItem) => () => activateItem(item);
+
+    const onItemKeyDown = (item: TListItem) => (event: KeyboardEvent) => {
+        if (!['Enter', 'Space'].includes(event.code)) return;
+        activateItem(item);
+    };
+
     $: fetchListItems(listId);
+    $: fetchUser(listId);
 </script>
 
 <div class="list-container">
+    {#if listUser !== null}
+        <h2>Wishlist for {listUser.name}</h2>
+    {/if}
     {#each items as item}
-        <WishListItem {item} on:click={onItemClick(item)} />
+        <WishListItem
+            {item}
+            on:click={onItemClick(item)}
+            on:keydown={onItemKeyDown(item)}
+        />
     {/each}
 </div>
 

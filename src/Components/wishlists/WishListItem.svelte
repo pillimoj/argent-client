@@ -4,7 +4,7 @@
     export let item: WishlistItem;
 </script>
 
-<div class="item" class:taken={item.takenBy !== null} on:click>
+<div class="item" class:taken={item.takenBy !== null} tabindex="0" on:click on:keydown>
     <div class="title text">{item.title}</div>
     <div class="description text">{item.description.replaceAll('\n', ' | ')}</div>
 </div>
@@ -18,6 +18,9 @@
         width: 100%;
         border: 1px solid #fff;
         margin-top: 0.5rem;
+    }
+    .item:hover {
+        background-color: #111;
     }
     .taken {
         color: #888;
