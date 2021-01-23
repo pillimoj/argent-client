@@ -1,9 +1,7 @@
 <script lang="ts">
-    import { onDestroy, SvelteComponent } from 'svelte';
+    import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { modal as modalStore } from '../stores.js';
-
-    const close = () => modalStore.set({ show: false });
+    import { closeModal } from './modals/index';
 
     // binding used for focus trap
     let modalElement: Element;
@@ -43,7 +41,7 @@
 
 <svelte:window on:keydown={handle_keydown} />
 
-<div transition:fade class="modal-background" on:click={close} />
+<div transition:fade class="modal-background" on:click={closeModal} />
 
 <div
     transition:fade
