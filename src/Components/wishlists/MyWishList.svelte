@@ -1,44 +1,12 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import type { WishlistItem as TListItem, User } from '../../ArgentTypes';
+    import type { WishlistItem as TListItem } from '../../ArgentTypes';
     import { client } from '../../api.js';
     import { openWishlistEditItemModal } from '../modals/create';
     import WishListItem from './WishListItem.svelte';
     import Button from '../shared/Button.svelte';
 
-    export let user: User;
     let items: TListItem[] = [];
-
-    const mockData: TListItem[] = [
-        {
-            id: 'abc1',
-            title: 'This item has a very long title',
-            description: 'This is the very long description of the item',
-            takenBy: null,
-            user: 'abc',
-        },
-        {
-            id: 'abc2',
-            title: 'abc2',
-            description: 'This is the very long description of the item',
-            takenBy: user.id,
-            user: 'abc',
-        },
-        {
-            id: 'abc2',
-            title: 'abc2',
-            description: 'This is the very long description of the item',
-            takenBy: 'abc2',
-            user: 'abc',
-        },
-        {
-            id: 'abc3',
-            title: 'abc3',
-            description: 'This is the description of the item',
-            takenBy: null,
-            user: 'abc',
-        },
-    ];
 
     const fetchListItems = async () => {
         items = await client<TListItem[]>(`api/v1/wishlists/me`);
