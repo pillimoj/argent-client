@@ -1,9 +1,9 @@
 <script lang="ts">
-    import LoginButton from './LoginButton.svelte';
     import Hamburger from './shared/Hamburger.svelte';
+    import NavMenu from './NavMenu.svelte';
 
-    export let menuOpen: boolean;
-    export let clickMenu: () => void;
+    let menuOpen: boolean = false;
+    const clickMenu = () => (menuOpen = !menuOpen);
 </script>
 
 <div class="container">
@@ -17,6 +17,7 @@
         </div>
     </a>
 </div>
+<NavMenu bind:menuOpen />
 
 <style>
     .container {
@@ -30,6 +31,8 @@
         height: 5rem;
         position: fixed;
         top: 0rem;
+        width: calc(100% - 2rem);
+        padding: 0 1rem;
     }
     a {
         color: #fff;
