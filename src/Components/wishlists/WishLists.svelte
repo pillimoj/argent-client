@@ -1,8 +1,9 @@
 <script lang="ts">
+    import router from 'page';
     import type { UserOption as WishListUser } from '../../ArgentTypes';
     import { onMount } from 'svelte';
-    import { navigate } from 'svelte-routing';
     import { client } from '../../api.js';
+    import { pageTitle } from '../../stores';
 
     let lists: WishListUser[] = [];
 
@@ -12,13 +13,14 @@
     };
 
     onMount(updateLists);
+    onMount(() => pageTitle.set('Wishlists'));
 </script>
 
 <div class="container">
     <div>
         {#each lists as list}
             <div class="list-item">
-                <div class="link" on:click={() => navigate(`/wishlists/${list.id}`)}>
+                <div class="link" on:click={() => router.show(`/wishlists/${list.id}`)}>
                     {list.name}
                 </div>
             </div>

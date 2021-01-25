@@ -11,3 +11,5 @@ export const modal = writable<ModalState>({
     component: null,
     props: null,
 });
+
+export const pageTitle = writable("")

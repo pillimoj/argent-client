@@ -2,11 +2,14 @@
     import type { WishlistItem } from '../../ArgentTypes';
 
     export let item: WishlistItem;
+    let taken = item.takenBy !== null;
 </script>
 
-<div class="item" class:taken={item.takenBy !== null} tabindex="0" on:click on:keydown>
-    <div class="title text">{item.title}</div>
-    <div class="description text">{item.description.replaceAll('\n', ' | ')}</div>
+<div class="item" tabindex="0" on:click on:keydown>
+    <div class="title text" class:taken>{item.title}</div>
+    <div class="description text" class:taken>
+        {item.description.replaceAll('\n', ' | ')}
+    </div>
 </div>
 
 <style>
@@ -22,7 +25,8 @@
     .item:hover {
         background-color: #111;
     }
-    .taken {
+    .title.taken,
+    .description.taken {
         color: #888;
     }
     .title {
@@ -30,7 +34,7 @@
         width: 5rem;
     }
     .description {
-        color: #888;
+        color: #ccc;
         font-size: 0.8rem;
     }
     .text {

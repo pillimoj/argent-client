@@ -3,6 +3,7 @@
     import { client } from '../../api.js';
     import { openWishlistItemModal } from '../modals/create';
     import WishListItem from './WishListItem.svelte';
+    import { pageTitle } from '../../stores';
 
     export let listId: string;
     let items: TListItem[] = [];
@@ -14,6 +15,10 @@
     const fetchUser = async (id: string) => {
         const user = await client<UserOption>(`api/v1/users/${id}`);
         listUser = user;
+        const title = user.name.endsWith('s')
+            ? `${user.name}' wishlist`
+            : `${user.name}'s wishlist`;
+        pageTitle.set(title);
     };
     const reserveItem = async (item: TListItem, user: User) => {
         await client(`api/v1/wishlist-items/${item.id}/take`, { method: 'post' });
@@ -43,6 +48,7 @@
     $: fetchUser(listId);
 </script>
 
+<svelte:options accessors={true} />
 <div class="list-container">
     {#if listUser !== null}
         <h2>Wishlist for {listUser.name}</h2>

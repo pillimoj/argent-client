@@ -1,18 +1,24 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { navigate } from 'svelte-routing';
+    import router from 'page';
 
-    import type { UserOption } from '../../ArgentTypes';
+    import type { List, UserOption } from '../../ArgentTypes';
     import { client } from '../../api';
 
     import { closeModal } from '../modals';
     import { openShareListModal } from '../modals/create';
+    import { pageTitle } from '../../stores';
 
     export let listId: string;
 
     let listUsers = [];
     let allUsers = [];
     let userOptions: Array<UserOption> = [];
+
+    const getListTitle = async () => {
+        const data = await client<List>(`api/v1/checklists/${listId}/`);
+        pageTitle.set(data.name);
+    };
 
     const fetchListUsers = async () => {
         listUsers = await client(`api/v1/checklists/${listId}/users`);
@@ -47,10 +53,11 @@
     };
     const onDeleteClick = async () => {
         await client(`api/v1/checklists/${listId}`, { method: 'delete' });
-        navigate('/');
+        router.show('/');
     };
     onMount(getAllUsers);
     onMount(fetchListUsers);
+    onMount(getListTitle);
 </script>
 
 <div class="container">

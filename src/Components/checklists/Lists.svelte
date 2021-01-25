@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { List as TList } from '../../ArgentTypes';
     import { onMount } from 'svelte';
-    import { navigate } from 'svelte-routing';
+    import router from 'page';
     import { client } from '../../api.js';
-    import { modal } from '../../stores.js';
+    import { modal, pageTitle } from '../../stores.js';
     import AddList from '../modals/AddList.svelte';
 
     let lists: TList[] = [];
@@ -27,18 +27,19 @@
     };
 
     onMount(updateLists);
+    onMount(() => pageTitle.set('Checklists'));
 </script>
 
 <div class="container">
     <div>
         {#each lists as list}
             <div class="list-item">
-                <div class="link" on:click={() => navigate(`/list/${list.id}`)}>
+                <div class="link" on:click={() => router.show(`/list/${list.id}`)}>
                     {list.name}
                 </div>
                 <div
                     class="link manage"
-                    on:click={() => navigate(`/list/${list.id}/manage`)}
+                    on:click={() => router.show(`/list/${list.id}/manage`)}
                 >
                     Manage
                 </div>

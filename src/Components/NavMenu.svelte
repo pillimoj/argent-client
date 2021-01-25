@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { navigate } from 'svelte-routing';
+    import router from 'page';
     import authentication from '../auth';
     export let menuOpen: boolean;
 
     const navAndClose = (to: string) => {
-        navigate(to);
+        router.show(to);
         menuOpen = false;
     };
     const onLogoutClick = () => {
@@ -50,7 +50,7 @@
         cursor: pointer;
     }
     .link:hover {
-        background-color: #000;
+        background-color: #333;
         color: #fff;
     }
     .spacer {

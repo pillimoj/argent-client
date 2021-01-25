@@ -5,6 +5,7 @@
     import { openWishlistEditItemModal } from '../modals/create';
     import WishListItem from './WishListItem.svelte';
     import Button from '../shared/Button.svelte';
+    import { pageTitle } from '../../stores';
 
     let items: TListItem[] = [];
 
@@ -36,6 +37,7 @@
     };
 
     onMount(fetchListItems);
+    onMount(() => pageTitle.set('My Wishlist'));
 </script>
 
 <div class="list-container">
@@ -43,7 +45,7 @@
         <WishListItem {item} on:click={onItemClick(item)} />
     {/each}
     <div class="button-container">
-        <Button on:click={onItemClick()}>Create</Button>
+        <Button on:click={onItemClick()}>New Wish</Button>
     </div>
 </div>
 

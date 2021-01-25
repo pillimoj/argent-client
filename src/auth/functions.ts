@@ -1,4 +1,4 @@
-import { navigate } from 'svelte-routing';
+import router from 'page';
 import type { User } from '../ArgentTypes';
 import { client } from '../api';
 import google from './google';
@@ -16,7 +16,7 @@ export const logout = async () => {
     await Promise.all([google.logout(), client('api/v1/logout')]);
     user.set(null);
     authStatus.set('NeedsLogin');
-    navigate('/');
+    router.show('/');
 };
 
 export const login = async () => {

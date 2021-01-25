@@ -1,45 +1,54 @@
 <script lang="ts">
-    import type { ListItem as TListItem } from '../../ArgentTypes';
+    import type { ListItem as TListItem, List } from '../../ArgentTypes';
     import { client } from '../../api.js';
     import ListItem from './ListItem.svelte';
     import Button from '../shared/Button.svelte';
     import AddItem from '../shared/AddItem.svelte';
     import SpacerV from '../shared/SpacerV.svelte';
+    import { onMount } from 'svelte';
+    import { pageTitle } from '../../stores';
 
     export let listId;
     let todoItems = [];
     let doneItems = [];
     let newItemTitle = '';
 
-    const fetchListItems = async (id) => {
-        const data = await client<TListItem[]>(`api/v1/checklists/${id}`);
+    const getList = async () => {
+        const data = await client<List>(`api/v1/checklists/${listId}`);
+        pageTitle.set(data.name);
+    };
+
+    const fetchListItems = async () => {
+        const data = await client<TListItem[]>(`api/v1/checklists/${listId}/items`);
         todoItems = data.filter((it) => !it.done);
         doneItems = data.filter((it) => it.done);
     };
     const onClickItem = (itemId, done) => async () => {
         if (done) {
             await client(`api/v1/checklistitems/${itemId}/done`, { method: 'post' });
-            fetchListItems(listId);
+            fetchListItems();
         } else {
             await client(`api/v1/checklistitems/${itemId}/not-done`, { method: 'post' });
-            fetchListItems(listId);
+            fetchListItems();
         }
     };
     const onClickClear = async () => {
         await client(`api/v1/checklists/${listId}/clear-done`, { method: 'post' });
-        fetchListItems(listId);
+        fetchListItems();
     };
     const addListItem = async () => {
         await client('api/v1/checklistitems', {
             body: { title: newItemTitle, checklist: listId },
         });
-        fetchListItems(listId);
+        fetchListItems();
         newItemTitle = '';
     };
 
-    $: fetchListItems(listId);
+    onMount(fetchListItems);
+    onMount(getList);
 </script>
 
+<svelte:options accessors={true} />
 <div class="list-container">
     {#each todoItems as item}
         <ListItem {...item} on:click={onClickItem(item.id, true)} />
