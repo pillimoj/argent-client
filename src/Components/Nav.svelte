@@ -37,6 +37,7 @@
         top: 0rem;
         width: calc(100% - 2rem);
         padding: 0 1rem;
+        z-index: 10;
     }
     a {
         color: #fff;

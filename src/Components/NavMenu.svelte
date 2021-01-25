@@ -34,6 +34,7 @@
         top: 5rem;
         width: 100%;
         height: 100vh;
+        z-index: 20;
     }
     @media (min-width: 40rem) {
         .menu {
@@ -65,5 +66,6 @@
         width: 100%;
         height: 100%;
         background: transparent;
+        z-index: 20;
     }
 </style>
