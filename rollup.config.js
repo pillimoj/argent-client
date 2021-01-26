@@ -57,7 +57,8 @@ if (isDevelopment) {
 module.exports = {
     input: 'src/main.ts',
     output: {
-        sourcemap: true,
+        name: 'argent.client',
+        sourcemap: isDevelopment,
         format: 'iife',
         dir: buildFolder,
         entryFileNames: '[name].[hash].js',

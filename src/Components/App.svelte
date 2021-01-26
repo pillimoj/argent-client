@@ -1,42 +1,60 @@
 <script lang="ts">
-    import { Router, Route } from 'svelte-routing';
-    import { auth, modal } from '../stores.js';
+    import router from 'page';
+    import { modal, pageTitle } from '../stores.js';
+    import { authStatus } from '../auth/store';
+    import LoginButton from './LoginButton.svelte';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
-    import Lists from './Lists.svelte';
-    import List from './List.svelte';
-    import ManageList from './ManageList.svelte';
+    import Lists from './checklists/Lists.svelte';
+    import WishLists from './wishlists/WishLists.svelte';
+    import List from './checklists/List.svelte';
+    import ManageList from './checklists/ManageList.svelte';
+    import WishList from './wishlists/WishList.svelte';
+    import MyWishList from './wishlists/MyWishList.svelte';
     import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
 
-    $: modalState = $modal;
-    $: authState = $auth;
+    let page;
+    let params = {};
+
+    const addRoute = (route: string, component: any) => {
+        router(route, setParams, resetPageTitle, () => (page = component));
+    };
+
+    const resetPageTitle = (_, next) => {
+        pageTitle.set('');
+        next();
+    };
+    const setParams = (ctx, next) => {
+        params = ctx.params;
+        next();
+    };
+
+    addRoute('/admin', Admin);
+    addRoute('/lists', Lists);
+    addRoute('/list/:listId', List);
+    addRoute('/list/:listId/manage', ManageList);
+    addRoute('/wishlists', WishLists);
+    addRoute('/my-wishlist', MyWishList);
+    addRoute('/wishlists/:listId', WishList);
+    router.start();
 </script>
 
 <main>
     <Nav />
     <SpacerV height="5rem" />
-    <Router>
-        {#if authState === 'Authenticated'}
-            <div class="app-content">
-                <Route path="admin" component={Admin} />
-                <Route path="list/:id" let:params>
-                    <List listId={params.id} />
-                </Route>
-                <Route path="list/:id/manage" let:params>
-                    <ManageList listId={params.id} />
-                </Route>
-                <Route>
-                    <Lists />
-                </Route>
-            </div>
+    <div class="content">
+        {#if $authStatus === 'Authenticated'}
+            <svelte:component this={page} {...params} />
+        {:else}
+            <LoginButton />
         {/if}
-        {#if modalState.show}
+        {#if $modal.show}
             <Modal>
-                <svelte:component this={modalState.component} {...modalState.props} />
+                <svelte:component this={$modal.component} {...$modal.props} />
             </Modal>
         {/if}
-    </Router>
+    </div>
 </main>
 
 <style>
@@ -45,14 +63,14 @@
         max-width: 50rem;
     }
 
-    .app-content {
-        margin: 0 1rem;
-    }
-
     @media (min-width: 40rem) {
         main {
             max-width: 38rem;
+            padding: 0 1rem;
         }
+    }
+    .content {
+        margin: 0 1rem;
     }
 
     :global(body) {

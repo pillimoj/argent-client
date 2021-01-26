@@ -1,13 +1,16 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { client } from '../../api.js';
+    import type { User } from '../../ArgentTypes.js';
     import { closeModal } from '../modals';
     import { openAddUserModal } from '../modals/create';
 
-    let users = [];
+    export const title = 'Admin';
+
+    let users: User[] = [];
 
     const updateUsers = async () => {
-        const data = await client('api/v1/admin/users');
+        const data = await client<User[]>('api/v1/admin/users');
         users = data;
     };
     const addUser = async (userName: string, email: string) => {

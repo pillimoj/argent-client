@@ -22,3 +22,11 @@ export interface ListItem {
     done: boolean;
     createdAt: number;
 }
+
+export interface WishlistItem {
+    id: string;
+    title: string;
+    description: string;
+    takenBy: string | null;
+    user: string;
+}
