@@ -1,35 +1,39 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import router from 'page';
     import { modal, pageTitle } from '../stores.js';
     import { authStatus } from '../auth/store';
+    import authentication from '../auth';
+    import WishLists from './wishlists/WishLists.svelte';
+    import WishList from './wishlists/WishList.svelte';
+    import MyWishList from './wishlists/MyWishList.svelte';
     import LoginButton from './LoginButton.svelte';
     import Modal from './Modal.svelte';
     import Nav from './Nav.svelte';
     import Lists from './checklists/Lists.svelte';
-    import WishLists from './wishlists/WishLists.svelte';
     import List from './checklists/List.svelte';
     import ManageList from './checklists/ManageList.svelte';
-    import WishList from './wishlists/WishList.svelte';
-    import MyWishList from './wishlists/MyWishList.svelte';
     import Admin from './admin/Admin.svelte';
     import SpacerV from './shared/SpacerV.svelte';
+    import Spinner from './shared/Spinner.svelte';
 
     let page;
     let params = {};
 
-    const addRoute = (route: string, component: any) => {
-        router(route, setParams, resetPageTitle, () => (page = component));
-    };
-
-    const resetPageTitle = (_, next) => {
-        pageTitle.set('');
-        next();
-    };
     const setParams = (ctx, next) => {
         params = ctx.params;
         next();
     };
 
+    const addRoute = (route: string, component: any) => {
+        router(route, setParams, () => (page = component));
+    };
+
+    router.exit((_, next) => {
+        pageTitle.set('');
+        next();
+    });
+    router.redirect('/', '/lists');
     addRoute('/admin', Admin);
     addRoute('/lists', Lists);
     addRoute('/list/:listId', List);
@@ -38,6 +42,8 @@
     addRoute('/my-wishlist', MyWishList);
     addRoute('/wishlists/:listId', WishList);
     router.start();
+
+    onMount(authentication.checkAuthStatus);
 </script>
 
 <main>
@@ -46,8 +52,12 @@
     <div class="content">
         {#if $authStatus === 'Authenticated'}
             <svelte:component this={page} {...params} />
-        {:else}
+        {:else if $authStatus === 'NeedsLogin'}
             <LoginButton />
+        {:else}
+            <div class="spinner">
+                <Spinner />
+            </div>
         {/if}
         {#if $modal.show}
             <Modal>
@@ -66,13 +76,16 @@
     @media (min-width: 40rem) {
         main {
             max-width: 38rem;
-            padding: 0 1rem;
         }
     }
     .content {
         margin: 0 1rem;
     }
-
+    .spinner {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
     :global(body) {
         background-color: #000;
         font-family: 'Jost', sans-serif;
