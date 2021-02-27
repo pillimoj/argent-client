@@ -17,7 +17,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 const plugins = [
     replace({
-        __apiUrl__: isDevelopment ? '/' : 'https://argent-72ltbia36q-ew.a.run.app/',
+        __apiUrl__: isDevelopment ? '/' : 'https://api.argent.grimsborn.com/',
     }),
     svelte({
         preprocess: autoPreprocess(),
