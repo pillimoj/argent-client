@@ -2,11 +2,11 @@
     import { Game } from '../../marbles/Game';
     import { GameEvent } from '../../marbles/GameEvent';
     import type { RenderData } from '../../marbles/RenderData';
+    import { modal } from '../../stores';
+    import CompleteMarbleGame from '../modals/CompleteMarbleGame.svelte';
     import Fireworks from './Fireworks.svelte';
     import Pipe from './Pipe.svelte';
 
-    // TODO: Fireworks
-    // TODO: New game dialog
     // TODO: Remember player
 
     let game: Game | null = null;
@@ -14,9 +14,24 @@
     let renderFireWorks: boolean = false;
     let renderFireWorksTimer: number | null = null;
 
+    const openWinModal = () => {
+        modal.set({
+            component: CompleteMarbleGame,
+            show: true,
+            props: {
+                updateCallback: () => {
+                    modal.set({ show: false });
+                    newGame();
+                },
+                completedGameLevel: 1,
+            },
+        });
+    };
+
     const newGame = () => {
         game = new Game(6);
         renderData = game.getRenderData();
+        hideFireWorks();
     };
 
     const showFireWorks = () => {
@@ -47,6 +62,7 @@
             case GameEvent.GameWon:
                 console.log('large firework');
                 showFireWorks();
+                setTimeout(openWinModal, 3000);
                 break;
             default:
                 break;
