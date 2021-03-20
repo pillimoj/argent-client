@@ -78,13 +78,15 @@
 </script>
 
 <div>
-    {#each renderData?.pipes as pipe}
-        <Pipe
-            activatePipe={handlePipeClick}
-            {pipe}
-            activePipeId={renderData.activePipe}
-        />
-    {/each}
+    {#if renderData !== null}
+        {#each renderData.pipes as pipe}
+            <Pipe
+                activatePipe={handlePipeClick}
+                {pipe}
+                activePipeId={renderData.activePipe}
+            />
+        {/each}
+    {/if}
     {#if renderFireWorks}
         <Fireworks />
     {/if}
