@@ -5,8 +5,8 @@ export const ALL_MARBLES = [
     'LightGoldenrodYellow',
     'DeepSkyBlue',
     'Aquamarine',
-    'MediumSpringGreen',
-    'SeaGreen',
+    'Teal',
+    'SpringGreen',
     'DarkViolet',
     'Plum',
 ] as const;
