@@ -1,3 +1,5 @@
+import { client } from '../api';
+import type { GameStatus } from '../ArgentTypes';
 import { GameEvent } from './GameEvent';
 import type { Marble } from './Marble';
 import { ALL_MARBLES } from './Marble';
@@ -5,18 +7,44 @@ import { Pipe } from './Pipe';
 import type { RenderData } from './RenderData';
 import { randomIterator, take } from './utilities';
 
+function getNumberOfMarblesFromLevel(level: number): number {
+    if (level < 5) {
+        return 5;
+    }
+    if (level < 10) {
+        return 6;
+    }
+    if (level < 20) {
+        return 7;
+    }
+    if (level < 30) {
+        return 8;
+    }
+    if (level < 40) {
+        return 9;
+    }
+    return 10;
+}
+
 export class Game {
     colors: Map<Marble, boolean>;
     pipes: Map<string, Pipe>;
     activePipe: Pipe;
     dirty: boolean = true;
     cachedData: RenderData;
+    level: number;
 
-    constructor(numMarbleColors: number) {
+    constructor() {}
+
+    async init(): Promise<Game> {
         this.colors = new Map<Marble, boolean>();
         this.pipes = new Map<string, Pipe>();
         this.activePipe = null;
 
+        const gameStatus = await client<GameStatus>('api/v1/marble-game/status');
+        this.level = gameStatus.highestCleared + 1;
+
+        const numMarbleColors = getNumberOfMarblesFromLevel(this.level);
         const colorsToUse = [...take(randomIterator(ALL_MARBLES), numMarbleColors)];
         const bagOfMarbles: Marble[] = [];
         colorsToUse.forEach((color) => {
@@ -39,6 +67,8 @@ export class Game {
         }
 
         this.cachedData = this.getRenderData();
+
+        return this;
     }
 
     handlePipeClick(pipeId: string): GameEvent | null {
@@ -47,9 +77,6 @@ export class Game {
         const clickedPipe = this.pipes.get(pipeId);
         if (this.activePipe === null && !clickedPipe.isEmpty() && !clickedPipe.done) {
             this.activePipe = clickedPipe;
-            this.dirty = true;
-        } else if (this.activePipe === clickedPipe) {
-            this.activePipe = null;
             this.dirty = true;
         } else if (
             this.activePipe !== null &&
@@ -64,9 +91,16 @@ export class Game {
                 this.colors.set(clickedPipe.topMarble(), true);
                 event = GameEvent.PipeFinished;
             }
+            // Win condition
             if (Array.from(this.colors.values()).every(Boolean)) {
                 event = GameEvent.GameWon;
+                client('api/v1/marble-game/set-highest-cleared', {
+                    body: { highestCleared: this.level },
+                });
             }
+        } else if (this.activePipe !== null) {
+            this.activePipe = null;
+            this.dirty = true;
         }
         return event;
     }

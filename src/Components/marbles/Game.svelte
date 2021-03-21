@@ -1,16 +1,19 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+
+    import { pageTitle } from '../../stores';
+    import { modal } from '../../stores';
     import { Game } from '../../marbles/Game';
     import { GameEvent } from '../../marbles/GameEvent';
     import type { RenderData } from '../../marbles/RenderData';
-    import { modal } from '../../stores';
+
     import CompleteMarbleGame from '../modals/CompleteMarbleGame.svelte';
     import Fireworks from './Fireworks.svelte';
     import Pipe from './Pipe.svelte';
 
-    // TODO: Remember player
-
     let game: Game | null = null;
     let renderData: RenderData | null = null;
+    let isInteractionsLocked = false;
     let renderFireWorks: boolean = false;
     let renderFireWorksTimer: number | null = null;
 
@@ -23,15 +26,18 @@
                     modal.set({ show: false });
                     newGame();
                 },
-                completedGameLevel: 1,
+                completedGameLevel: game.level,
             },
         });
     };
 
-    const newGame = () => {
-        game = new Game(6);
+    const newGame = async () => {
+        const uninitializedGame = new Game();
+        game = await uninitializedGame.init();
         renderData = game.getRenderData();
         hideFireWorks();
+        isInteractionsLocked = false;
+        pageTitle.set(`Marbles🧪 lvl-${game.level}`);
     };
 
     const showFireWorks = () => {
@@ -56,11 +62,10 @@
     const handleEvent = (event: GameEvent | null) => {
         switch (event) {
             case GameEvent.PipeFinished:
-                console.log('small firework');
                 flashFireWorks(1000);
                 break;
             case GameEvent.GameWon:
-                console.log('large firework');
+                isInteractionsLocked = true;
                 showFireWorks();
                 setTimeout(openWinModal, 3000);
                 break;
@@ -70,11 +75,12 @@
     };
 
     const handlePipeClick = (pipeId: string) => {
+        if (isInteractionsLocked) return;
         const event = game.handlePipeClick(pipeId);
         renderData = game.getRenderData();
         handleEvent(event);
     };
-    newGame();
+    onMount(newGame);
 </script>
 
 <div>

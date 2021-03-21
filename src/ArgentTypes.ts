@@ -30,3 +30,8 @@ export interface WishlistItem {
     takenBy: string | null;
     user: string;
 }
+
+export interface GameStatus {
+    user: string;
+    highestCleared: number;
+}
