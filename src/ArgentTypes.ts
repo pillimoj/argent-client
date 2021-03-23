@@ -54,4 +54,10 @@ export interface ChatMessage extends ChatData {
     senderId: string;
     messageText: string;
     sender: string;
+    createdDate: number;
+}
+
+export interface ChatStore {
+    messages: Map<string, ChatMessage>;
+    activeUsers: string[];
 }

@@ -1,27 +1,32 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 
     import { user } from '../../auth/store';
-
-    import { chatStore } from '../../chatStore';
+    import { chatStore } from '../../stores';
+    import { SocketHandler } from '../../ChatSocketHandler';
     import { pageTitle } from '../../stores';
     import ChatMessage from './ChatMessage.svelte';
 
     let newChatText = '';
+    let socketHandler = new SocketHandler();
     const sendChat = () => {
-        chatStore.sendMessage(newChatText);
+        socketHandler.send(newChatText);
         newChatText = '';
     };
+    $: messages = Array.from($chatStore.messages.values()).sort(
+        (a, b) => a.createdDate - b.createdDate,
+    );
     onMount(() => pageTitle.set('Chat'));
+    onDestroy(() => socketHandler.dispose());
 </script>
 
 <div class="messages">
-    {#each $chatStore.messages as message (message.id)}
+    {#each messages as message (message.id)}
         <ChatMessage {message} userId={$user.id} />
     {/each}
 </div>
 <form on:submit|preventDefault={sendChat}>
-    <input id="chatInput" type="text" bind:value={newChatText} />
+    <input type="text" bind:value={newChatText} />
 </form>
 Users:
 {#each $chatStore.activeUsers as activeUser}
