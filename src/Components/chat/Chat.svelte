@@ -6,6 +6,7 @@
     import { SocketHandler } from '../../ChatSocketHandler';
     import { pageTitle } from '../../stores';
     import ChatMessage from './ChatMessage.svelte';
+    import Input from '../shared/Input.svelte';
 
     let newChatText = '';
     let socketHandler = new SocketHandler();
@@ -25,13 +26,9 @@
         <ChatMessage {message} userId={$user.id} />
     {/each}
 </div>
-<form on:submit|preventDefault={sendChat}>
-    <input type="text" bind:value={newChatText} />
+<form on:submit|preventDefault={sendChat} autocomplete="off">
+    <Input bind:value={newChatText} nofade placeholder="Write a message" />
 </form>
-Users:
-{#each $chatStore.activeUsers as activeUser}
-    <div>{activeUser}</div>
-{/each}
 
 <style>
     .messages {
