@@ -7,6 +7,7 @@
     import authentication from '../auth';
 
     import Admin from './admin/Admin.svelte';
+    import Chat from './chat/Chat.svelte';
     import Game from './marbles/Game.svelte';
     import List from './checklists/List.svelte';
     import Lists from './checklists/Lists.svelte';
@@ -45,6 +46,7 @@
     addRoute('/wishlists', WishLists);
     addRoute('/my-wishlist', MyWishList);
     addRoute('/wishlists/:listId', WishList);
+    addRoute('/chat', Chat);
     router.start();
 
     onMount(authentication.checkAuthStatus);
