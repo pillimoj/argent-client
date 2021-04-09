@@ -35,3 +35,29 @@ export interface GameStatus {
     user: string;
     highestCleared: number;
 }
+
+type DataType = 'Messages' | 'ActiveUsers';
+
+export interface ChatData {
+    dataType: DataType;
+}
+
+export interface MessagesData extends ChatData {
+    messages: ChatMessage[];
+}
+
+export interface ActiveUsersData extends ChatData {
+    activeUsers: string[];
+}
+export interface ChatMessage extends ChatData {
+    id: string;
+    senderId: string;
+    messageText: string;
+    sender: string;
+    createdDate: number;
+}
+
+export interface ChatStore {
+    messages: Map<string, ChatMessage>;
+    activeUsers: string[];
+}

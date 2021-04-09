@@ -7,6 +7,7 @@
     export let additional: string | null = null;
     export let multiline: boolean = false;
     export let maxRows: number = 5;
+    export let nofade: boolean = false;
 
     let hasPlaceholder = !!placeholder;
 
@@ -39,6 +40,7 @@
             class:hasValue={value}
             class:hasPlaceholder
             class:noBorder
+            class:nofade
             rows={multilineRows}
         />
     {:else}
@@ -50,6 +52,7 @@
             class:hasValue={value}
             class:hasPlaceholder
             class:noBorder
+            class:nofade
             type="text"
         />
     {/if}
@@ -99,8 +102,10 @@
         padding: 1.5em 1em 0.625em;
     }
 
+    textarea.nofade,
     textarea.textInput.hasValue,
     textarea.textInput:focus,
+    input.nofade,
     input.textInput.hasValue,
     input.textInput:focus {
         color: #000;
@@ -121,7 +126,7 @@
         outline: none;
     }
 
-    .textInput.hasValue:not(:focus) {
+    .textInput.hasValue:not(:focus):not(.nofade) {
         color: #fff;
         background-color: #000;
         border: 1px solid #fff;
