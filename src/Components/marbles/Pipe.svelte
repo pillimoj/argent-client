@@ -3,16 +3,18 @@
     export let pipe: Pipe;
     export let activePipeId: string;
     export let activatePipe: (string) => void;
+    $: active = pipe.id === activePipeId;
 </script>
 
-<div
-    class="pipe"
-    class:active={pipe.id === activePipeId}
-    on:click={() => activatePipe(pipe.id)}
->
-    {#each pipe.marbles as marble}
-        <div style="background-color: {marble}" class="marble" />
-    {/each}
+<div>
+    <div class="pipe" on:click={() => activatePipe(pipe.id)}>
+        {#each pipe.marbles as marble}
+            <div style="background-color: {marble}" class="marble" />
+        {/each}
+    </div>
+    {#if active}
+        <div class="active-marker">^</div>
+    {/if}
 </div>
 
 <style>
@@ -29,14 +31,14 @@
         box-sizing: content-box;
         padding: 1px;
     }
-    .pipe.active {
-        border: 2px solid whitesmoke;
-        border-bottom: 0;
-        padding: 0;
-    }
     .marble {
         height: 2rem;
         width: 2rem;
         border-radius: 50%;
+    }
+    .active-marker {
+        text-align: center;
+        font-weight: 700;
+        font-size: 2rem;
     }
 </style>

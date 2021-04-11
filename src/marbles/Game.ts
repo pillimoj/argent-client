@@ -98,8 +98,11 @@ export class Game {
                     body: { highestCleared: this.level },
                 });
             }
-        } else if (this.activePipe !== null) {
+        } else if (this.activePipe === clickedPipe) {
             this.activePipe = null;
+            this.dirty = true;
+        } else if (!clickedPipe.isEmpty() && !clickedPipe.done) {
+            this.activePipe = clickedPipe;
             this.dirty = true;
         }
         return event;
