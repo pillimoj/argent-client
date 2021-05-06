@@ -18,8 +18,8 @@
 
     <div class="menu">
         <div class="link" on:click={() => navAndClose('/lists')}>Todo Lists</div>
-        <div class="link" on:click={() => navAndClose('/wishlists')}>Wishlists</div>
-        <div class="link" on:click={() => navAndClose('/my-wishlist')}>My Wishlist</div>
+        <div class="link" on:click={() => navAndClose('/marbles')}>Marble Game</div>
+        <div class="link" on:click={() => navAndClose('/Chat')}>Chat</div>
         <div class="spacer" />
         <div class="link" on:click={onLogoutClick}>Logout</div>
     </div>
