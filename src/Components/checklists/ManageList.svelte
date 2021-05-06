@@ -27,9 +27,9 @@
         allUsers = await client('api/v1/users');
     };
 
-    const shareList = async (userId: string, accessType: string) => {
+    const shareList = async (user: string, accessType: string) => {
         await client(`api/v1/checklists/${listId}/share`, {
-            body: { userId, accessType },
+            body: { user, accessType },
         });
     };
     const onUnShare = (userId: string) => async () => {
@@ -37,7 +37,9 @@
         fetchListUsers();
     };
 
-    $: userOptions = allUsers.filter(({ id }) => !listUsers.some((lu) => lu.id === id));
+    $: userOptions = allUsers.filter(
+        ({ user }) => !listUsers.some((lu) => lu.user === user),
+    );
     $: onlyOneOwner =
         listUsers.filter((lu) => lu.checklistAccessType == 'Owner').length == 1;
 
@@ -74,7 +76,7 @@
             </div>
             {#if !(onlyOneOwner && user.checklistAccessType === 'Owner')}
                 <div class="share-link">
-                    <div class="link" on:click={onUnShare(user.id)}>X</div>
+                    <div class="link" on:click={onUnShare(user.user)}>X</div>
                 </div>
             {/if}
         </div>

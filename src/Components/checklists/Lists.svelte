@@ -34,12 +34,12 @@
     <div>
         {#each lists as list}
             <div class="list-item">
-                <div class="link" on:click={() => router.show(`/list/${list.id}`)}>
+                <div class="link" on:click={() => router.show(`/list/${list.checklist}`)}>
                     {list.name}
                 </div>
                 <div
                     class="link manage"
-                    on:click={() => router.show(`/list/${list.id}/manage`)}
+                    on:click={() => router.show(`/list/${list.checklist}/manage`)}
                 >
                     Manage
                 </div>

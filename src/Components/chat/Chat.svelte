@@ -23,7 +23,7 @@
 
 <div class="messages">
     {#each messages as message (message.id)}
-        <ChatMessage {message} userId={$user.id} />
+        <ChatMessage {message} userId={$user.user} />
     {/each}
 </div>
 <form on:submit|preventDefault={sendChat} autocomplete="off">

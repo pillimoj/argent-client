@@ -13,7 +13,7 @@
     let setOwner = false;
 
     const onShareSubmit = async () => {
-        await shareFunction(selectedUser.id, setOwner ? Owner : Editor);
+        await shareFunction(selectedUser.user, setOwner ? Owner : Editor);
         updateCallback();
     };
     $: disabled = selectedUser === null;

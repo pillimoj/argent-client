@@ -1,23 +1,23 @@
 export type Role = 'User' | 'Admin';
 export type AuthStatus = 'Initial' | 'Authenticated' | 'NeedsLogin';
 export interface User {
-    id: string;
+    user: string;
     email: string;
     name: string;
     role: Role;
 }
 
 export interface UserOption {
-    id: string;
+    user: string;
     name: string;
 }
 
 export interface List {
-    id: string;
+    checklist: string;
     name: string;
 }
 export interface ListItem {
-    id: string;
+    checklistItem: string;
     title: string;
     done: boolean;
     createdAt: number;

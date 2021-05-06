@@ -41,7 +41,7 @@
         {#each users as user}
             <div>{user.name}</div>
             <div>{user.email}</div>
-            <div class="remove-user hoverable" on:click={onRemoveUserClick(user.id)}>
+            <div class="remove-user hoverable" on:click={onRemoveUserClick(user.user)}>
                 x
             </div>
         {/each}
