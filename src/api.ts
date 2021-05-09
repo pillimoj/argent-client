@@ -40,7 +40,7 @@ export async function client<T>(
         try {
             const data = JSON.parse(text);
             if (data?.error === 'Unauthorized') {
-                authStatus.set('NeedsLogin');
+                authStatus.set('Initial');
             }
             text = data?.error ?? data;
         } catch {}

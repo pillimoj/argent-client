@@ -16,7 +16,7 @@
     let userOptions: Array<UserOption> = [];
 
     const getListTitle = async () => {
-        const data = await client<List>(`api/v1/checklists/${listId}/`);
+        const data = await client<List>(`api/v1/checklists/${listId}`);
         pageTitle.set(data.name);
     };
 

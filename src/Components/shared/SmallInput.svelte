@@ -12,7 +12,6 @@
 
 <div class="textInputContainer">
     {#if placeholder}
-        let randomId = Math.random().toString();
         <label
             for={randomId}
             class="textInputLabel"
