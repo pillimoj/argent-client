@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import type { ChatMessage, ChatStore } from './ArgentTypes';
 
 interface ModalState {
     show: boolean;
@@ -14,8 +13,3 @@ export const modal = writable<ModalState>({
 });
 
 export const pageTitle = writable('');
-
-export const chatStore = writable<ChatStore>({
-    messages: new Map<string, ChatMessage>(),
-    activeUsers: [],
-});

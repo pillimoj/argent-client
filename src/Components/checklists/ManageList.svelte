@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import router from 'page';
 
-    import type { List, UserOption } from '../../ArgentTypes';
+    import type { List, UserAccess, UserOption } from '../../ArgentTypes';
     import { client } from '../../api';
 
     import { closeModal } from '../modals';
@@ -11,9 +11,9 @@
 
     export let listId: string;
 
-    let listUsers = [];
-    let allUsers = [];
-    let userOptions: Array<UserOption> = [];
+    let listUsers: UserAccess[] = [];
+    let allUsers: UserOption[] = [];
+    let userOptions: UserOption[] = [];
 
     const getListTitle = async () => {
         const data = await client<List>(`api/v1/checklists/${listId}`);
@@ -37,9 +37,7 @@
         fetchListUsers();
     };
 
-    $: userOptions = allUsers.filter(
-        ({ user }) => !listUsers.some((lu) => lu.user === user),
-    );
+    $: userOptions = allUsers.filter(({ id }) => !listUsers.some((lu) => lu.id === id));
     $: onlyOneOwner =
         listUsers.filter((lu) => lu.checklistAccessType == 'Owner').length == 1;
 
@@ -76,7 +74,7 @@
             </div>
             {#if !(onlyOneOwner && user.checklistAccessType === 'Owner')}
                 <div class="share-link">
-                    <div class="link" on:click={onUnShare(user.user)}>X</div>
+                    <div class="link" on:click={onUnShare(user.id)}>X</div>
                 </div>
             {/if}
         </div>

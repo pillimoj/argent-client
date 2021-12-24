@@ -7,19 +7,15 @@
     import authentication from '../auth';
 
     import Admin from './admin/Admin.svelte';
-    import Chat from './chat/Chat.svelte';
     import Game from './marbles/Game.svelte';
     import List from './checklists/List.svelte';
     import Lists from './checklists/Lists.svelte';
     import LoginButton from './LoginButton.svelte';
     import ManageList from './checklists/ManageList.svelte';
     import Modal from './Modal.svelte';
-    import MyWishList from './wishlists/MyWishList.svelte';
     import Nav from './Nav.svelte';
     import SpacerV from './shared/SpacerV.svelte';
     import Spinner from './shared/Spinner.svelte';
-    import WishList from './wishlists/WishList.svelte';
-    import WishLists from './wishlists/WishLists.svelte';
 
     let page;
     let params = {};
@@ -43,10 +39,6 @@
     addRoute('/lists', Lists);
     addRoute('/list/:listId', List);
     addRoute('/list/:listId/manage', ManageList);
-    addRoute('/wishlists', WishLists);
-    addRoute('/my-wishlist', MyWishList);
-    addRoute('/wishlists/:listId', WishList);
-    addRoute('/chat', Chat);
     router.start();
 
     onMount(authentication.checkAuthStatus);

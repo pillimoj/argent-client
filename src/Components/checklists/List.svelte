@@ -9,8 +9,8 @@
     import { pageTitle } from '../../stores';
 
     export let listId;
-    let todoItems = [];
-    let doneItems = [];
+    let todoItems: TListItem[] = [];
+    let doneItems: TListItem[] = [];
     let newItemTitle = '';
 
     const getList = async () => {
@@ -25,12 +25,12 @@
     };
     const onClickItem = (itemId, done) => async () => {
         if (done) {
-            await client(`api/v1/checklists/${listId}/items/${itemId}/done`, {
+            await client(`api/v1/checklistitems/${itemId}/done`, {
                 method: 'post',
             });
             fetchListItems();
         } else {
-            await client(`api/v1/checklists/${listId}/items/${itemId}/not-done`, {
+            await client(`api/v1/checklistitems/${itemId}/not-done`, {
                 method: 'post',
             });
             fetchListItems();
@@ -41,7 +41,7 @@
         fetchListItems();
     };
     const addListItem = async () => {
-        await client(`api/v1/checklists/${listId}/items`, {
+        await client(`api/v1/checklistitems`, {
             body: { title: newItemTitle, checklist: listId },
         });
         fetchListItems();
@@ -55,13 +55,13 @@
 <svelte:options accessors={true} />
 <div class="list-container">
     {#each todoItems as item}
-        <ListItem {...item} on:click={onClickItem(item.checklistItem, true)} />
+        <ListItem {...item} on:click={onClickItem(item.id, true)} />
     {/each}
     <SpacerV />
     <AddItem bind:value={newItemTitle} placeholder="Item Name" on:addItem={addListItem} />
     <SpacerV />
     {#each doneItems as item}
-        <ListItem {...item} on:click={onClickItem(item.checklistItem, false)} />
+        <ListItem {...item} on:click={onClickItem(item.id, false)} />
     {/each}
     {#if doneItems.length > 0}
         <SpacerV />
