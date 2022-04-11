@@ -48,9 +48,14 @@ const getToken = async () => {
     }
 };
 
+const preemptiveInit = async () => {
+    await authInstancePromise();
+};
+
 export default {
     logout,
     login,
     isLoggedIn,
     getToken,
+    preemptiveInit,
 };

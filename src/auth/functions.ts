@@ -26,6 +26,7 @@ export const login = async () => {
 };
 
 export const checkAuthStatus = async () => {
+    google.preemptiveInit();
     let sucessfullyAuthenticated = false;
     try {
         const userResponse = await client<User>('api/v1/me');
