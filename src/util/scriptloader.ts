@@ -3,55 +3,69 @@ interface ScriptLoaderOptions {
     global: string;
 }
 
-export default class ScriptLoader {
-    url: string;
-    global: string;
-    isLoaded: boolean;
+interface ScriptLoader<T> {
+    get(): Promise<T>;
+}
 
-    constructor(options: ScriptLoaderOptions) {
-        const { url, global } = options;
-        this.url = url;
-        this.global = global;
-        this.isLoaded = false;
+enum ScriptState {
+    Pending,
+    Resolved,
+    Rejected,
+}
+
+const fold = (reducer, init, xs) => {
+    let acc = init;
+    for (const x of xs) {
+        acc = reducer(acc, x);
     }
+    return acc;
+};
 
-    loadScript() {
+const accessNested = (obj: any, path: string): any => {
+    return fold((acc, el) => acc[el], obj, path.split('.'));
+};
+
+export function loadScript<T>(options: ScriptLoaderOptions): ScriptLoader<T> {
+    let state = ScriptState.Pending;
+
+    const _loadScript = (): Promise<T> => {
+        console.log('Loading', options.url);
         return new Promise((resolve, reject) => {
             // Create script element and set attributes
             const script = document.createElement('script');
             script.type = 'text/javascript';
             script.async = true;
             script.defer = true;
-            script.src = this.url;
+            script.src = options.url;
 
             // Append the script to the DOM
             document.body.appendChild(script);
 
             // Resolve the promise once the script is loaded
             script.addEventListener('load', () => {
-                this.isLoaded = true;
-                resolve(script);
+                state = ScriptState.Resolved;
+                resolve(accessNested(window, options.global));
             });
 
             // Catch any errors while loading the script
             script.addEventListener('error', () => {
-                reject(new Error(`${this.url} failed to load.`));
+                state = ScriptState.Rejected;
+                reject(new Error(`${options.url} failed to load.`));
             });
         });
-    }
+    };
 
-    load() {
-        return new Promise(async (resolve, reject) => {
-            if (!this.isLoaded) {
-                try {
-                    await this.loadScript();
-                    resolve(window[this.global]);
-                } catch (e) {
-                    reject(e);
-                }
-            } else {
-                resolve(window[this.global]);
-            }
-        });
-    }
+    let script = _loadScript();
+
+    const get = () => {
+        if (state == ScriptState.Rejected) {
+            script = _loadScript();
+            state = ScriptState.Pending;
+        }
+        return script;
+    };
+
+    return {
+        get,
+    };
 }

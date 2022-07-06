@@ -1,23 +1,29 @@
 <script lang="ts">
-    import GoogleLogo from './GoogleLogo.svelte';
+    import google from '../../auth/google';
+    import { onMount } from 'svelte';
+
+    let loginElement: HTMLElement;
+
+    onMount(async () => {
+        const api = google.api;
+        (await api).renderButton(loginElement, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'medium',
+            text: 'signin',
+            shape: 'rectangular',
+        });
+    });
 </script>
 
-<div class="login-button" on:click>
-    <GoogleLogo />
-    <span class="login-text">Log in</span>
+<div class="login-container">
+    <div bind:this={loginElement} class="login-button" />
+    <div id={google.ONE_TAP_CONTAINER_ID} />
 </div>
 
 <style>
     .login-button {
-        min-width: 5rem;
-        background-color: #1a73e8;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-    }
-    .login-text {
-        margin: 0 1rem;
+        margin: 0 auto;
+        width: fit-content;
     }
 </style>

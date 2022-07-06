@@ -18,7 +18,9 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const plugins = [
     replace({
         __apiUrl__: isDevelopment ? '/' : 'https://api.argent.grimsborn.com/',
-        __apiWsUrl__: isDevelopment ? 'ws://localhost:8008' : 'wss://api.argent.grimsborn.com',
+        __apiWsUrl__: isDevelopment
+            ? 'ws://localhost:8008'
+            : 'wss://api.argent.grimsborn.com',
     }),
     svelte({
         preprocess: autoPreprocess(),
@@ -51,9 +53,9 @@ if (isDevelopment) {
         livereload({ watch: `./${buildFolder}` }),
     );
 } else {
-    plugins.push(del({ targets: ['dist/*'] }));
     plugins.push(terser());
 }
+plugins.push(del({ targets: ['dist/*'] }));
 
 module.exports = {
     input: 'src/main.ts',

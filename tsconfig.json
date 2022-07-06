@@ -2,5 +2,8 @@
     "extends": "@tsconfig/svelte/tsconfig.json",
     "include": ["src/**/*"],
     "exclude": ["node_modules", "**/node_modules", "dist"],
-    "compilerOptions": {"sourceMap": true}   
+    "compilerOptions": {
+        "sourceMap": true,
+        "types": ["google.accounts", "svelte"]
+    }
 }

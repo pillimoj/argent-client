@@ -1,6 +1,5 @@
-import { checkAuthStatus, login, logout } from './functions';
+import { checkAuthStatus, logout } from './functions';
 export default {
     checkAuthStatus,
-    login,
     logout,
 };
