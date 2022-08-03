@@ -4,14 +4,15 @@
     export let menuOpen: boolean;
 
     const navAndClose = (to: string) => {
-        router.show(to);
+        if (router.current !== to) {
+            router.show(to);
+        }
         menuOpen = false;
     };
     const onLogoutClick = () => {
         menuOpen = false;
         authentication.logout();
     };
-
 </script>
 
 {#if menuOpen}
@@ -68,5 +69,4 @@
         background: transparent;
         z-index: 20;
     }
-
 </style>
