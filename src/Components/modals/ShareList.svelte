@@ -17,6 +17,7 @@
         updateCallback();
     };
     $: disabled = selectedUser === null;
+
 </script>
 
 <div class="container">
@@ -49,7 +50,7 @@
         width: 5rem;
         box-sizing: border-box;
         background: #fff;
-        color: #000;
+        color: #112dba;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -66,10 +67,11 @@
         padding: 2rem;
     }
     button.disabled {
-        background: #888;
+        background: #92520a;
     }
     .button-section {
         display: flex;
         justify-content: space-between;
     }
+
 </style>

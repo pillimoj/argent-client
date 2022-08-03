@@ -34,6 +34,7 @@
 
     let lists = [];
     let newListName = '';
+
 </script>
 
 <div class="container">
@@ -81,6 +82,7 @@
     }
     .hoverable:hover {
         background-color: #fff;
-        color: #000;
+        color: #112dba;
     }
+
 </style>

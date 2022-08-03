@@ -5,6 +5,7 @@
 
     let menuOpen: boolean = false;
     const clickMenu = () => (menuOpen = !menuOpen);
+
 </script>
 
 <div class="container">
@@ -25,7 +26,7 @@
 
 <style>
     .container {
-        background-color: #000;
+        background-color: #112dba;
         margin: 0 auto;
         max-width: 50rem;
         display: flex;
@@ -52,7 +53,7 @@
         font-size: 1.5rem;
     }
     h2 {
-        color: #ccc;
+        color: #d5bc87;
         font-size: 1rem;
     }
 
@@ -86,4 +87,5 @@
             font-size: 1.5rem;
         }
     }
+
 </style>

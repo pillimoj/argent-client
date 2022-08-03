@@ -8,6 +8,7 @@
 
     let hasPlaceholder = !!placeholder;
     let randomId = Math.random().toString();
+
 </script>
 
 <div class="textInputContainer">
@@ -43,7 +44,7 @@
 
     input.textInput {
         background-clip: padding-box;
-        background-color: #000;
+        background-color: #112dba;
         border: 1px solid #fff;
         /* border-radius: 4px; */
         box-sizing: border-box;
@@ -67,7 +68,7 @@
 
     input.textInput.hasValue,
     input.textInput:focus {
-        color: #000;
+        color: #112dba;
         background-color: #fff;
         outline: none;
         box-shadow: none;
@@ -83,7 +84,7 @@
 
     .textInput.hasValue:not(:focus) {
         color: #fff;
-        background-color: #000;
+        background-color: #112dba;
         border: 1px solid #fff;
     }
 
@@ -95,7 +96,7 @@
 
     .textInputErrorLabel,
     .textInputAdditionalLabel {
-        color: #888;
+        color: #92520a;
         display: block;
         font-weight: normal;
         font-size: 12px;
@@ -111,7 +112,7 @@
     }
 
     .textInputLabel {
-        color: #888;
+        color: #92520a;
         display: block;
         font-weight: normal;
         font-size: 1em;
@@ -130,4 +131,5 @@
         transform: translateY(-10px);
         transition: 0.1s cubic-bezier(0.78, 0.14, 0.15, 0.86);
     }
+
 </style>

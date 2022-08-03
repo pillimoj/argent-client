@@ -37,6 +37,7 @@
             previously_focused.focus();
         });
     }
+
 </script>
 
 <svelte:window on:keydown={handle_keydown} />
@@ -73,6 +74,7 @@
         overflow: auto;
         transform: translate(-50%, -50%);
         border-radius: 0.2em;
-        background: #000;
+        background: #112dba;
     }
+
 </style>

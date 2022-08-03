@@ -1,6 +1,7 @@
 <script lang="ts">
     export let title;
     export let done;
+
 </script>
 
 <div class="item" class:done on:click>{title}</div>
@@ -15,6 +16,7 @@
     }
     .done {
         text-decoration: line-through;
-        color: #888;
+        color: #92520a;
     }
+
 </style>

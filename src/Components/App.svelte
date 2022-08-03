@@ -42,6 +42,7 @@
     router.start();
 
     onMount(authentication.checkAuthStatus);
+
 </script>
 
 <main>
@@ -85,11 +86,12 @@
         margin-top: 2rem;
     }
     :global(body) {
-        background-color: #000;
+        background-color: #112dba;
         font-family: 'Jost', sans-serif;
         color: #fff;
         font-size: 1rem;
         margin: 0;
         padding: 0;
     }
+
 </style>

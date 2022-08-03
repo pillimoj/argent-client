@@ -13,6 +13,7 @@
         await addFunction(userName, email);
         updateCallback();
     };
+
 </script>
 
 <div class="container">
@@ -42,7 +43,7 @@
         width: 5rem;
         box-sizing: border-box;
         background: #fff;
-        color: #000;
+        color: #112dba;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -50,7 +51,7 @@
         border: none;
     }
     button.disabled {
-        background: #888;
+        background: #92520a;
     }
     .container {
         padding: 2rem;
@@ -63,4 +64,5 @@
         margin-bottom: 0.5rem;
         max-width: 18rem;
     }
+
 </style>

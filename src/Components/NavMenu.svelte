@@ -11,6 +11,7 @@
         menuOpen = false;
         authentication.logout();
     };
+
 </script>
 
 {#if menuOpen}
@@ -28,7 +29,7 @@
     .menu {
         position: relative;
         background-color: #fff;
-        color: #000;
+        color: #112dba;
         position: fixed;
         top: 5rem;
         width: 100%;
@@ -50,13 +51,13 @@
         cursor: pointer;
     }
     .link:hover {
-        background-color: #333;
+        background-color: #1b40fb;
         color: #fff;
     }
     .spacer {
         height: 1px;
         margin: 1rem;
-        background-color: #000;
+        background-color: #112dba;
     }
     .background-cover {
         position: fixed;
@@ -67,4 +68,5 @@
         background: transparent;
         z-index: 20;
     }
+
 </style>

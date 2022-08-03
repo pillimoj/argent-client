@@ -58,6 +58,7 @@
     onMount(getAllUsers);
     onMount(fetchListUsers);
     onMount(getListTitle);
+
 </script>
 
 <div class="container">
@@ -104,7 +105,7 @@
         margin-bottom: 1rem;
     }
     .gray {
-        color: #888;
+        color: #92520a;
     }
     .link {
         display: flex;
@@ -114,7 +115,7 @@
         padding-right: 1rem;
     }
     .link:hover {
-        background-color: #333;
+        background-color: #1b40fb;
     }
     .delete-button-container {
         display: flex;
@@ -136,4 +137,5 @@
         border: none;
         margin-right: 1rem;
     }
+
 </style>

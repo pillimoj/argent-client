@@ -1,5 +1,6 @@
 <script lang="ts">
     export let disabled: boolean = false;
+
 </script>
 
 <button type="submit" {disabled} on:click>
@@ -14,11 +15,12 @@
         width: 5rem;
         box-sizing: border-box;
         background: #fff;
-        color: #000;
+        color: #112dba;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
         border: none;
     }
+
 </style>

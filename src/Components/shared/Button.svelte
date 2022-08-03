@@ -1,9 +1,11 @@
 <script lang="ts" context="module">
     export type ButtonType = 'default' | 'danger' | 'shadow' | 'confirm';
+
 </script>
 
 <script lang="ts">
     export let type: ButtonType = 'default';
+
 </script>
 
 <div class="button-container {type}" on:click>
@@ -21,7 +23,7 @@
     }
     .default {
         background-color: #fff;
-        color: #000;
+        color: #112dba;
     }
     .danger {
         background-color: #f00;
@@ -35,4 +37,5 @@
         border: 1px solid #ccc;
         color: #ccc;
     }
+
 </style>

@@ -28,6 +28,7 @@
 
     onMount(updateLists);
     onMount(() => pageTitle.set('Checklists'));
+
 </script>
 
 <div class="container">
@@ -75,9 +76,10 @@
     }
     .link.manage {
         justify-content: center;
-        color: #888;
+        color: #92520a;
     }
     .link:hover {
-        background-color: #333;
+        background-color: #1b40fb;
     }
+
 </style>
