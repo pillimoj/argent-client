@@ -3,7 +3,7 @@
     import router from 'page';
 
     import type { List, UserAccess, UserOption } from '../../ArgentTypes';
-    import { client } from '../../api';
+    import api from '../../api';
 
     import { closeModal } from '../modals';
     import { openShareListModal } from '../modals/create';
@@ -16,24 +16,22 @@
     let userOptions: UserOption[] = [];
 
     const getListTitle = async () => {
-        const data = await client<List>(`api/v1/checklists/${listId}`);
+        const data = await api.get<List>(`api/v1/checklists/${listId}`);
         pageTitle.set(data.name);
     };
 
     const fetchListUsers = async () => {
-        listUsers = await client(`api/v1/checklists/${listId}/users`);
+        listUsers = await api.get(`api/v1/checklists/${listId}/users`);
     };
     const getAllUsers = async () => {
-        allUsers = await client('api/v1/users');
+        allUsers = await api.get('api/v1/users');
     };
 
     const shareList = async (user: string, accessType: string) => {
-        await client(`api/v1/checklists/${listId}/share`, {
-            body: { user, accessType },
-        });
+        await api.post(`api/v1/checklists/${listId}/share`, { user, accessType });
     };
     const onUnShare = (userId: string) => async () => {
-        await client(`api/v1/checklists/${listId}/unshare/${userId}`, { method: 'post' });
+        await api.post(`api/v1/checklists/${listId}/unshare/${userId}`);
         fetchListUsers();
     };
 
@@ -52,13 +50,12 @@
         });
     };
     const onDeleteClick = async () => {
-        await client(`api/v1/checklists/${listId}`, { method: 'delete' });
+        await api.del(`api/v1/checklists/${listId}`);
         router.show('/');
     };
     onMount(getAllUsers);
     onMount(fetchListUsers);
     onMount(getListTitle);
-
 </script>
 
 <div class="container">
@@ -137,5 +134,4 @@
         border: none;
         margin-right: 1rem;
     }
-
 </style>

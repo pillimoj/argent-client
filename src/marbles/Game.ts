@@ -1,4 +1,4 @@
-import { client } from '../api';
+import api from '../api';
 import type { GameStatus } from '../ArgentTypes';
 import { GameEvent } from './GameEvent';
 import type { Marble } from './Marble';
@@ -41,7 +41,7 @@ export class Game {
         this.pipes = new Map<string, Pipe>();
         this.activePipe = null;
 
-        const gameStatus = await client<GameStatus>('api/v1/marble-game/status');
+        const gameStatus = await api.get<GameStatus>('api/v1/marble-game/status');
         this.level = gameStatus.highestCleared + 1;
 
         const numMarbleColors = getNumberOfMarblesFromLevel(this.level);
@@ -94,9 +94,7 @@ export class Game {
             // Win condition
             if (Array.from(this.colors.values()).every(Boolean)) {
                 event = GameEvent.GameWon;
-                client('api/v1/marble-game/update-highest-cleared', {
-                    method: 'POST',
-                });
+                api.post('api/v1/marble-game/update-highest-cleared');
             }
         } else if (this.activePipe === clickedPipe) {
             this.activePipe = null;

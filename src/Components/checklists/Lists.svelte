@@ -2,7 +2,7 @@
     import type { List as TList } from '../../ArgentTypes';
     import { onMount } from 'svelte';
     import router from 'page';
-    import { client } from '../../api.js';
+    import api from '../../api.js';
     import { modal, pageTitle } from '../../stores.js';
     import AddList from '../modals/AddList.svelte';
 
@@ -22,13 +22,12 @@
     };
 
     const updateLists = async () => {
-        const data = await client<TList[]>('api/v1/checklists');
+        const data = await api.get<TList[]>('api/v1/checklists');
         lists = data;
     };
 
     onMount(updateLists);
     onMount(() => pageTitle.set('Checklists'));
-
 </script>
 
 <div class="container">
@@ -81,5 +80,4 @@
     .link:hover {
         background-color: #1b40fb;
     }
-
 </style>

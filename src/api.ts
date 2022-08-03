@@ -2,34 +2,39 @@ import { authStatus } from './auth/store';
 
 const apiUrl = '__apiUrl__';
 
-interface ClientConfig extends RequestInit {
+type Method = 'GET' | 'POST' | 'DELETE';
+
+interface RequestConfig {
+    endpoint: string;
     body?: any;
+    method: Method;
+    customConfig: RequestInit;
 }
 
-export async function client<T>(
-    endpoint: string,
-    { body, ...customConfig }: ClientConfig = {},
-): Promise<T> {
+async function request<T>(conf: RequestConfig): Promise<T> {
+    if (conf.body && conf.method != 'POST') {
+        throw new Error(`${conf.method} requests cannot have a body`);
+    }
     const headers = {
         'content-type': 'application/json',
     };
 
-    const config: RequestInit = {
-        method: body ? 'POST' : 'GET',
-        ...customConfig,
+    const requestInit: RequestInit = {
+        ...conf.customConfig,
+        method: conf.method,
         headers: {
             ...headers,
-            ...customConfig.headers,
+            ...conf.customConfig.headers,
         },
         body: undefined,
         credentials: 'include',
     };
-    if (body) {
-        config.body = JSON.stringify(body);
+    if (conf.body) {
+        requestInit.body = JSON.stringify(conf.body);
     }
     let response;
     try {
-        response = await window.fetch(apiUrl + endpoint, config);
+        response = await window.fetch(apiUrl + conf.endpoint, requestInit);
     } catch (error) {
         return await Promise.reject({ error });
     }
@@ -47,3 +52,31 @@ export async function client<T>(
         return await Promise.reject(text);
     }
 }
+
+async function get<T>(
+    endpoint: string,
+    body?: any,
+    customConfig: RequestInit = {},
+): Promise<T> {
+    return request<T>({ endpoint, body, method: 'GET', customConfig });
+}
+async function post<T>(
+    endpoint: string,
+    body?: any,
+    customConfig: RequestInit = {},
+): Promise<T> {
+    return request<T>({ endpoint, body, method: 'POST', customConfig });
+}
+async function del<T>(
+    endpoint: string,
+    body?: any,
+    customConfig: RequestInit = {},
+): Promise<T> {
+    return request<T>({ endpoint, body, method: 'DELETE', customConfig });
+}
+
+export default {
+    get,
+    post,
+    del,
+};

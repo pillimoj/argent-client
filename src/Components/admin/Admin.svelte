@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { client } from '../../api.js';
+    import api from '../../api.js';
     import type { User } from '../../ArgentTypes.js';
     import { closeModal } from '../modals';
     import { openAddUserModal } from '../modals/create';
@@ -10,11 +10,11 @@
     let users: User[] = [];
 
     const updateUsers = async () => {
-        const data = await client<User[]>('api/v1/admin/users');
+        const data = await api.get<User[]>('api/v1/admin/users');
         users = data;
     };
     const addUser = async (userName: string, email: string) => {
-        await client('api/v1/admin/users', { body: { userName, email } });
+        await api.post('api/v1/admin/users', { userName, email });
     };
     onMount(updateUsers);
 
@@ -28,13 +28,12 @@
         });
     };
     const onRemoveUserClick = (userId: string) => async () => {
-        await client(`api/v1/admin/users/${userId}`, { method: 'delete' });
+        await api.del(`api/v1/admin/users/${userId}`);
         updateUsers();
     };
 
     let lists = [];
     let newListName = '';
-
 </script>
 
 <div class="container">
@@ -42,7 +41,7 @@
         {#each users as user}
             <div>{user.name}</div>
             <div>{user.email}</div>
-            <div class="remove-user hoverable" on:click={onRemoveUserClick(user.user)}>
+            <div class="remove-user hoverable" on:click={onRemoveUserClick(user.id)}>
                 x
             </div>
         {/each}
@@ -84,5 +83,4 @@
         background-color: #fff;
         color: #112dba;
     }
-
 </style>

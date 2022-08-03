@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { client } from '../../api';
-
     import Button from '../shared/Button.svelte';
 
     export let updateCallback: () => void;
