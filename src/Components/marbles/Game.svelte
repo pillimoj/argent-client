@@ -8,7 +8,7 @@
     import type { RenderData } from '../../marbles/RenderData';
 
     import CompleteMarbleGame from '../modals/CompleteMarbleGame.svelte';
-    import Fireworks from './Fireworks.svelte';
+    import Fireworks from '../shared/Fireworks.svelte';
     import Pipe from './Pipe.svelte';
 
     let game: Game | null = null;
@@ -81,6 +81,7 @@
         handleEvent(event);
     };
     onMount(newGame);
+
 </script>
 
 <div>
@@ -102,4 +103,5 @@
     div {
         display: flex;
     }
+
 </style>

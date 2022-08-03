@@ -7,11 +7,13 @@
     import SpacerV from '../shared/SpacerV.svelte';
     import { onMount } from 'svelte';
     import { pageTitle } from '../../stores';
+    import Fireworks from '../shared/Fireworks.svelte';
 
     export let listId;
     let todoItems: TListItem[] = [];
     let doneItems: TListItem[] = [];
     let newItemTitle = '';
+    let renderFireworks: boolean = false;
 
     const getList = async () => {
         const data = await client<List>(`api/v1/checklists/${listId}`);
@@ -28,17 +30,22 @@
             await client(`api/v1/checklistitems/${itemId}/done`, {
                 method: 'post',
             });
+            if (todoItems.length === 1) {
+                renderFireworks = true;
+            }
             fetchListItems();
         } else {
             await client(`api/v1/checklistitems/${itemId}/not-done`, {
                 method: 'post',
             });
             fetchListItems();
+            renderFireworks = false;
         }
     };
     const onClickClear = async () => {
         await client(`api/v1/checklists/${listId}/clear-done`, { method: 'post' });
         fetchListItems();
+        renderFireworks = false;
     };
     const addListItem = async () => {
         await client(`api/v1/checklistitems`, {
@@ -46,10 +53,12 @@
         });
         fetchListItems();
         newItemTitle = '';
+        renderFireworks = false;
     };
 
     onMount(fetchListItems);
     onMount(getList);
+
 </script>
 
 <svelte:options accessors={true} />
@@ -67,6 +76,9 @@
         <SpacerV />
         <Button on:click={onClickClear}>Clear Done</Button>
     {/if}
+    {#if renderFireworks}
+        <Fireworks />
+    {/if}
 </div>
 
 <style>
@@ -75,4 +87,5 @@
         flex-direction: column;
         align-items: center;
     }
+
 </style>
