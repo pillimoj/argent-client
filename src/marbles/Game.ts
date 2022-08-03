@@ -94,8 +94,8 @@ export class Game {
             // Win condition
             if (Array.from(this.colors.values()).every(Boolean)) {
                 event = GameEvent.GameWon;
-                client('api/v1/marble-game/set-highest-cleared', {
-                    body: { highestCleared: this.level },
+                client('api/v1/marble-game/update-highest-cleared', {
+                    method: 'POST',
                 });
             }
         } else if (this.activePipe === clickedPipe) {
