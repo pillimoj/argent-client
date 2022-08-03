@@ -7,9 +7,6 @@
     export let completedGameLevel: number;
 
     const handleClick = async () => {
-        // await client('api/v1/marble-game/complete-level', {
-        //     body: { level: completedGameLevel },
-        // });
         updateCallback();
     };
 </script>
