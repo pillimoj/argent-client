@@ -1,7 +1,12 @@
 {
     "hosting": {
         "public": "dist",
-        "ignore": [".firebaserc", "firebase.json", ".git"],
+        "ignore": [
+            ".firebaserc",
+            "firebase.json",
+            ".git",
+            "README.md"
+        ],
         "rewrites": [
             {
                 "source": "/api/**",
