@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { ListItem as TListItem, List } from '../../ArgentTypes';
-    import { client } from '../../api.js';
+    import api from '../../api.js';
     import ListItem from './ListItem.svelte';
     import Button from '../shared/Button.svelte';
     import AddItem from '../shared/AddItem.svelte';
@@ -16,40 +16,37 @@
     let renderFireworks: boolean = false;
 
     const getList = async () => {
-        const data = await client<List>(`api/v1/checklists/${listId}`);
+        const data = await api.get<List>(`api/v1/checklists/${listId}`);
         pageTitle.set(data.name);
     };
 
     const fetchListItems = async () => {
-        const data = await client<TListItem[]>(`api/v1/checklists/${listId}/items`);
+        const data = await api.get<TListItem[]>(`api/v1/checklists/${listId}/items`);
         todoItems = data.filter((it) => !it.done);
         doneItems = data.filter((it) => it.done);
     };
     const onClickItem = (itemId, done) => async () => {
         if (done) {
-            await client(`api/v1/checklistitems/${itemId}/done`, {
-                method: 'post',
-            });
+            await api.post(`api/v1/checklistitems/${itemId}/done`);
             if (todoItems.length === 1) {
                 renderFireworks = true;
             }
             fetchListItems();
         } else {
-            await client(`api/v1/checklistitems/${itemId}/not-done`, {
-                method: 'post',
-            });
+            await api.post(`api/v1/checklistitems/${itemId}/not-done`);
             fetchListItems();
             renderFireworks = false;
         }
     };
     const onClickClear = async () => {
-        await client(`api/v1/checklists/${listId}/clear-done`, { method: 'post' });
+        await api.post(`api/v1/checklists/${listId}/clear-done`);
         fetchListItems();
         renderFireworks = false;
     };
     const addListItem = async () => {
-        await client(`api/v1/checklistitems`, {
-            body: { title: newItemTitle, checklist: listId },
+        await api.post(`api/v1/checklistitems`, {
+            title: newItemTitle,
+            checklist: listId,
         });
         fetchListItems();
         newItemTitle = '';
@@ -58,7 +55,6 @@
 
     onMount(fetchListItems);
     onMount(getList);
-
 </script>
 
 <svelte:options accessors={true} />
@@ -87,5 +83,4 @@
         flex-direction: column;
         align-items: center;
     }
-
 </style>

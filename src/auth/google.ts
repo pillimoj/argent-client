@@ -1,4 +1,4 @@
-import { client } from '../api';
+import api from '../api';
 import type { User } from '../ArgentTypes';
 import { loadScript } from '../util/scriptloader';
 import { authStatus, user } from './store';
@@ -13,10 +13,10 @@ const loader = loadScript<typeof google.accounts.id>({
 });
 
 let token: string | null = null;
-let api = init();
+let googleApi = init();
 
 async function init() {
-    const api = await loader.get();
+    const googleApi = await loader.get();
     const config: IdConfig = {
         client_id:
             '487251436763-osourolcp58kh2q3t5qofapllbflnutr.apps.googleusercontent.com',
@@ -31,16 +31,16 @@ async function init() {
         itp_support: true,
     };
 
-    api.initialize(config);
-    return api;
+    googleApi.initialize(config);
+    return googleApi;
 }
 
 const prompt = async () => {
-    (await api).prompt();
+    (await googleApi).prompt();
 };
 
 async function tokenLogin(token: string) {
-    const userResponse = await client<User>('api/v1/login', {
+    const userResponse = await api.get<User>('api/v1/login', null, {
         headers: { Authorization: `Bearer ${token}` },
     });
     user.set(userResponse);
@@ -51,6 +51,6 @@ export default {
     init,
     token,
     prompt,
-    api,
+    googleApi,
     ONE_TAP_CONTAINER_ID,
 };

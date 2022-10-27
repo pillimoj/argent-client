@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { client } from '../../api';
+    import api from '../../api';
 
     import AddItem from '../shared/AddItem.svelte';
 
@@ -7,7 +7,7 @@
     export let updateCallback;
 
     const addList = async () => {
-        await client('api/v1/checklists', { body: { name: newListName } });
+        await api.post('api/v1/checklists', { name: newListName });
         updateCallback();
     };
 </script>
