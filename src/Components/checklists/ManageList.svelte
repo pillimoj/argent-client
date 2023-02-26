@@ -27,9 +27,9 @@
         allUsers = await client('api/v1/users');
     };
 
-    const shareList = async (user: string, accessType: string) => {
+    const shareList = async (userId: string, accessType: string) => {
         await client(`api/v1/checklists/${listId}/share`, {
-            body: { user, accessType },
+            body: { userId, accessType },
         });
     };
     const onUnShare = (userId: string) => async () => {
@@ -58,7 +58,6 @@
     onMount(getAllUsers);
     onMount(fetchListUsers);
     onMount(getListTitle);
-
 </script>
 
 <div class="container">
@@ -137,5 +136,4 @@
         border: none;
         margin-right: 1rem;
     }
-
 </style>
