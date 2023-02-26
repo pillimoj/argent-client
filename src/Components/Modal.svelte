@@ -1,10 +1,12 @@
 <script lang="ts">
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { modal } from '../stores';
     import { closeModal } from './modals/index';
 
     // binding used for focus trap
     let modalElement: Element;
+    const onClose = $modal.onClose;
 
     const handle_keydown = (e) => {
         if (e.key === 'Escape') {
@@ -37,7 +39,9 @@
             previously_focused.focus();
         });
     }
-
+    if (onClose != null) {
+        onDestroy(onClose);
+    }
 </script>
 
 <svelte:window on:keydown={handle_keydown} />
@@ -76,5 +80,4 @@
         border-radius: 0.2em;
         background: #112dba;
     }
-
 </style>

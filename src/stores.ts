@@ -4,6 +4,7 @@ interface ModalState {
     show: boolean;
     component?: any;
     props?: object;
+    onClose?: () => void;
 }
 
 export const modal = writable<ModalState>({
