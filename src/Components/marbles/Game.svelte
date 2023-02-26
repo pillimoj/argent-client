@@ -24,10 +24,10 @@
             props: {
                 updateCallback: () => {
                     modal.set({ show: false });
-                    newGame();
                 },
                 completedGameLevel: game.level,
             },
+            onClose: () => newGame(),
         });
     };
 
@@ -81,7 +81,6 @@
         handleEvent(event);
     };
     onMount(newGame);
-
 </script>
 
 <div>
@@ -103,5 +102,4 @@
     div {
         display: flex;
     }
-
 </style>
