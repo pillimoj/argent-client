@@ -34,3 +34,42 @@ export interface GameStatus {
     user: string;
     highestCleared: number;
 }
+export interface ComputeEngineStatus {
+    status:
+        | 'PROVISIONING'
+        | 'STAGING'
+        | 'RUNNING'
+        | 'STOPPING'
+        | 'SUSPENDING'
+        | 'SUSPENDED'
+        | 'REPAIRING'
+        | 'TERMINATE';
+}
+
+export type ComputeEngineUIStatus =
+    | 'Loading'
+    | 'Stopped'
+    | 'Running'
+    | 'Starting'
+    | 'Stopping';
+
+export const mapComputeEngineStatus = (
+    computeEngineStatus: ComputeEngineStatus,
+): ComputeEngineUIStatus => {
+    switch (computeEngineStatus.status) {
+        case 'PROVISIONING':
+        case 'STAGING':
+        case 'REPAIRING':
+            return 'Starting';
+        case 'RUNNING':
+            return 'Running';
+        case 'SUSPENDING':
+        case 'STOPPING':
+        case 'TERMINATE':
+            return 'Stopping';
+        case 'SUSPENDED':
+            return 'Stopped';
+        default:
+            break;
+    }
+};
