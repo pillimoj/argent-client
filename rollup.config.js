@@ -21,12 +21,17 @@ const plugins = [
         __apiWsUrl__: isDevelopment
             ? 'ws://localhost:8008'
             : 'wss://api.argent.grimsborn.com',
+        preventAssignment: true,
     }),
     svelte({
         preprocess: autoPreprocess(),
         dev: isDevelopment,
         extensions: ['.svelte'],
         emitCss: true,
+        onwarn: (warning, handler) => {
+            if (warning.code === 'a11y-click-events-have-key-events') return
+            handler(warning)
+        },
     }),
     postcss({
         extract: true,

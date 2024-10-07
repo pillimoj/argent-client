@@ -16,7 +16,7 @@
     import Nav from './Nav.svelte';
     import SpacerV from './shared/SpacerV.svelte';
     import Spinner from './shared/Spinner.svelte';
-    import ManageVm from './checklists/ManageVM.svelte';
+    import ManageVm from './admin/ManageVM.svelte';
 
     let page;
     let params = {};
@@ -44,7 +44,6 @@
     router.start();
 
     onMount(authentication.checkAuthStatus);
-
 </script>
 
 <main>
@@ -95,5 +94,4 @@
         margin: 0;
         padding: 0;
     }
-
 </style>

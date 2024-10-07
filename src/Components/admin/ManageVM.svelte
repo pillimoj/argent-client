@@ -1,15 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import router from 'page';
-
     import { client } from '../../api';
-
     import { pageTitle } from '../../stores';
-    import {
-        mapComputeEngineStatus,
-        ComputeEngineUIStatus,
-        ComputeEngineStatus,
-    } from '../../ArgentTypes';
+    import { mapComputeEngineStatus } from '../../ArgentTypes';
+    import type { ComputeEngineStatus, ComputeEngineUIStatus } from '../../ArgentTypes';
     import Button from '../shared/Button.svelte';
 
     let vmStatus: ComputeEngineUIStatus = 'Loading';
@@ -44,7 +38,6 @@
     }
 
     onMount(() => pageTitle.set('Manage VM'));
-
 </script>
 
 <div class="container">
@@ -65,5 +58,4 @@
     .container {
         margin-top: 2rem;
     }
-
 </style>

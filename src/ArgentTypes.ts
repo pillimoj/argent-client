@@ -36,14 +36,14 @@ export interface GameStatus {
 }
 export interface ComputeEngineStatus {
     status:
-        | 'PROVISIONING'
-        | 'STAGING'
-        | 'RUNNING'
-        | 'STOPPING'
-        | 'SUSPENDING'
-        | 'SUSPENDED'
-        | 'REPAIRING'
-        | 'TERMINATE';
+    | 'PROVISIONING'
+    | 'STAGING'
+    | 'RUNNING'
+    | 'STOPPING'
+    | 'SUSPENDING'
+    | 'SUSPENDED'
+    | 'REPAIRING'
+    | 'TERMINATE';
 }
 
 export type ComputeEngineUIStatus =
@@ -70,6 +70,8 @@ export const mapComputeEngineStatus = (
         case 'SUSPENDED':
             return 'Stopped';
         default:
+            console.warn(`Unknown status ${computeEngineStatus.status}`)
+            return 'Loading'
             break;
     }
 };
