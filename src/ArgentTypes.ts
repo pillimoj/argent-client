@@ -43,7 +43,7 @@ export interface ComputeEngineStatus {
     | 'SUSPENDING'
     | 'SUSPENDED'
     | 'REPAIRING'
-    | 'TERMINATE';
+    | 'TERMINATED';
 }
 
 export type ComputeEngineUIStatus =
@@ -65,13 +65,12 @@ export const mapComputeEngineStatus = (
             return 'Running';
         case 'SUSPENDING':
         case 'STOPPING':
-        case 'TERMINATE':
             return 'Stopping';
+        case 'TERMINATED':
         case 'SUSPENDED':
             return 'Stopped';
         default:
             console.warn(`Unknown status ${computeEngineStatus.status}`)
             return 'Loading'
-            break;
     }
 };
