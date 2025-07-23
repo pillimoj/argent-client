@@ -27,13 +27,13 @@
         allUsers = await client('api/v1/users');
     };
 
-    const shareList = async (userId: string, accessType: string) => {
+    const shareList = async (user: string, accessType: string) => {
         await client(`api/v1/checklists/${listId}/share`, {
-            body: { userId, accessType },
+            body: { user, accessType },
         });
     };
-    const onUnShare = (userId: string) => async () => {
-        await client(`api/v1/checklists/${listId}/unshare/${userId}`, { method: 'post' });
+    const onUnShare = (user: string) => async () => {
+        await client(`api/v1/checklists/${listId}/unshare/${user}`, { method: 'post' });
         fetchListUsers();
     };
 
@@ -58,6 +58,7 @@
     onMount(getAllUsers);
     onMount(fetchListUsers);
     onMount(getListTitle);
+
 </script>
 
 <div class="container">
@@ -136,4 +137,5 @@
         border: none;
         margin-right: 1rem;
     }
+
 </style>
