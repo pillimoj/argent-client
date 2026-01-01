@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { client } from '../../api';
-    import { pageTitle } from '../../stores';
     import { mapComputeEngineStatus } from '../../ArgentTypes';
     import type { ComputeEngineStatus, ComputeEngineUIStatus } from '../../ArgentTypes';
     import Button from '../shared/Button.svelte';
@@ -9,11 +8,12 @@
     const FIVE_MINUTES_MS = 5 * 60 * 1000;
     const FIVE_SECONDS_MS = 5 * 1000;
 
+    export let instanceName;
     let vmStatus: ComputeEngineUIStatus = 'Loading';
 
     const updateVmStatus = async () => {
         try {
-            const data = await client<ComputeEngineStatus>(`api/v1/gce-vm`);
+            const data = await client<ComputeEngineStatus>(`api/v1/vm/${instanceName}`);
             vmStatus = mapComputeEngineStatus(data);
         } catch (error) {
             vmStatus = 'Loading';
@@ -31,26 +31,25 @@
     }
 
     const startVm = async () => {
-        await client(`api/v1/gce-vm/start`, {
+        await client(`api/v1/vm/${instanceName}/start`, {
             body: {},
         });
         vmStatus = 'Starting';
     };
 
     const stopVm = async () => {
-        await client(`api/v1/gce-vm/stop`, {
+        await client(`api/v1/vm/${instanceName}/stop`, {
             body: {},
         });
         vmStatus = 'Stopping';
     };
-
-    onMount(() => pageTitle.set('Manage VM'));
     onMount(() => updateVmStatus());
+
 </script>
 
 <div class="container">
     <div>
-        <h2>VM is : {vmStatus}</h2>
+        <h2>{instanceName} is : {vmStatus}</h2>
     </div>
     <div>
         {#if vmStatus == 'Stopped'}
@@ -66,4 +65,5 @@
     .container {
         margin-top: 2rem;
     }
+
 </style>

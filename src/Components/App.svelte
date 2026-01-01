@@ -16,7 +16,7 @@
     import Nav from './Nav.svelte';
     import SpacerV from './shared/SpacerV.svelte';
     import Spinner from './shared/Spinner.svelte';
-    import ManageVm from './admin/ManageVM.svelte';
+    import ManageVms from './admin/ManageVMs.svelte';
 
     let page;
     let params = {};
@@ -40,10 +40,11 @@
     addRoute('/lists', Lists);
     addRoute('/list/:listId', List);
     addRoute('/list/:listId/manage', ManageList);
-    addRoute('/vm', ManageVm);
+    addRoute('/vm', ManageVms);
     router.start();
 
     onMount(authentication.checkAuthStatus);
+
 </script>
 
 <main>
@@ -94,4 +95,5 @@
         margin: 0;
         padding: 0;
     }
+
 </style>
