@@ -1,6 +1,6 @@
 import { authStatus } from './auth/store';
 
-const apiUrl = '__apiUrl__';
+export const apiUrl = '__apiUrl__';
 
 interface ClientConfig extends RequestInit {
     body?: any;
@@ -43,7 +43,7 @@ export async function client<T>(
                 authStatus.set('Initial');
             }
             text = data?.error ?? data;
-        } catch {}
+        } catch { }
         return await Promise.reject(text);
     }
 }

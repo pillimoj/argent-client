@@ -13,6 +13,7 @@
         menuOpen = false;
         authentication.logout();
     };
+
 </script>
 
 {#if menuOpen}
@@ -20,6 +21,7 @@
 
     <div class="menu">
         <div class="link" on:click={() => navAndClose('/lists')}>Todo Lists</div>
+        <div class="link" on:click={() => navAndClose('/vpn')}>VPN</div>
         <div class="link" on:click={() => navAndClose('/marbles')}>Marble Game</div>
         <div class="spacer" />
         <div class="link" on:click={onLogoutClick}>Logout</div>
@@ -69,4 +71,5 @@
         background: transparent;
         z-index: 20;
     }
+
 </style>
