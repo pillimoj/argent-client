@@ -34,6 +34,7 @@
         color: #fff;
     }
     .shadow {
+        height: calc(2rem - 2px);
         border: 1px solid #ccc;
         color: #ccc;
     }
